@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Collector">
+      <UniqueIdentifier>{cd93d696-7b58-4416-ba7a-e6d0e54bbfae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collector\CollectorWithVideo">
+      <UniqueIdentifier>{3f5e2d39-40e6-47cf-a835-bdf11a5dfa7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Calculator">
+      <UniqueIdentifier>{0f666db2-6523-437c-803e-84c171e2eeed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collector\Data">
+      <UniqueIdentifier>{e4983f8b-e1b8-4c98-b274-5975640739e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Calculator\Data">
+      <UniqueIdentifier>{11f39010-cf4b-42e7-ad44-c3b715ad2744}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application">
+      <UniqueIdentifier>{647085b4-640c-4cf7-b4f4-15a33dea157d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\ApplicationTestCollector">
+      <UniqueIdentifier>{9b2039b9-dcce-4d3d-98f7-a731a21065e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\ApplicationTestCalculator">
+      <UniqueIdentifier>{3a1122d9-70c4-4d96-affd-7396db6a52df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Analyzer">
+      <UniqueIdentifier>{baed2a61-d600-4b37-9b6d-7127f0731b63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Analyzer\Data">
+      <UniqueIdentifier>{7f974571-52c8-40ba-99fe-0c963472c1ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\ApplicationTestAnalyzer">
+      <UniqueIdentifier>{6be0074a-0491-4db4-916a-375a8b7451de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Keyboard">
+      <UniqueIdentifier>{5baa7249-7c31-4685-a428-b8e21bd2cef2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Collector\CollectorWithVideo\CollectorWithVideo.cpp">
+      <Filter>Collector\CollectorWithVideo</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\ApplicationTestCollector\ApplicationTestCollector.cpp">
+      <Filter>Application\ApplicationTestCollector</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Application\ApplicationTestCalculator\ApplicationTestCalculator.cpp">
+      <Filter>Application\ApplicationTestCalculator</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\ApplicationTestAnalyzer\ApplicationTestAnalyzer.cpp">
+      <Filter>Application\ApplicationTestAnalyzer</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Keyboard\WindowsKeyboard.cpp">
+      <Filter>Application\Keyboard</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Collector\ICollector.h">
+      <Filter>Collector</Filter>
+    </ClInclude>
+    <ClInclude Include="Collector\CollectorWithVideo\CollectorWithVideo.h">
+      <Filter>Collector\CollectorWithVideo</Filter>
+    </ClInclude>
+    <ClInclude Include="Calculator\ICalculator.h">
+      <Filter>Calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="Collector\Data\CollectData.h">
+      <Filter>Collector\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Calculator\Data\CalculateData.h">
+      <Filter>Calculator\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\IApplication.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\ApplicationTestCollector\ApplicationTestCollector.h">
+      <Filter>Application\ApplicationTestCollector</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\ApplicationTestCalculator\ApplicationTestCalculator.h">
+      <Filter>Application\ApplicationTestCalculator</Filter>
+    </ClInclude>
+    <ClInclude Include="Analyzer\IAnalyzer.h">
+      <Filter>Analyzer</Filter>
+    </ClInclude>
+    <ClInclude Include="Analyzer\Data\AnalyzeData.h">
+      <Filter>Analyzer\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\ApplicationTestAnalyzer\ApplicationTestAnalyzer.h">
+      <Filter>Application\ApplicationTestAnalyzer</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Keyboard\IKeyboard.h">
+      <Filter>Application\Keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Keyboard\WindowsKeyboard.h">
+      <Filter>Application\Keyboard</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
