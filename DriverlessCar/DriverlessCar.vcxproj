@@ -116,14 +116,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Analyzer\AnalyzerCasesBased\AnalyzerCasesBased.cpp" />
+    <ClCompile Include="Analyzer\AnalyzerCasesBased\CaseRepository.cpp" />
+    <ClCompile Include="Analyzer\AnalyzerCasesBased\CasesResolver.cpp" />
+    <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\BothLaneCase.cpp" />
     <ClCompile Include="Application\ApplicationTestAnalyzer\ApplicationTestAnalyzer.cpp" />
     <ClCompile Include="Application\ApplicationTestCalculator\ApplicationTestCalculator.cpp" />
     <ClCompile Include="Application\ApplicationTestCollector\ApplicationTestCollector.cpp" />
     <ClCompile Include="Application\Keyboard\WindowsKeyboard.cpp" />
+    <ClCompile Include="Calculator\BinarizeTool.cpp" />
+    <ClCompile Include="Calculator\BlobTool.cpp" />
+    <ClCompile Include="Calculator\CalculatorBlobsBased\CalculatorBlobsBased.cpp" />
+    <ClCompile Include="Calculator\CropTool.cpp" />
+    <ClCompile Include="Calculator\FlipTool.cpp" />
     <ClCompile Include="Collector\CollectorWithVideo\CollectorWithVideo.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Analyzer\AnalyzerCasesBased\AnalyzerCasesBased.h" />
+    <ClInclude Include="Analyzer\AnalyzerCasesBased\CaseRepository.h" />
+    <ClInclude Include="Analyzer\AnalyzerCasesBased\CasesResolver.h" />
+    <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\BothLaneCase.h" />
+    <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\ICase.h" />
     <ClInclude Include="Analyzer\Data\AnalyzeData.h" />
     <ClInclude Include="Analyzer\IAnalyzer.h" />
     <ClInclude Include="Application\ApplicationTestAnalyzer\ApplicationTestAnalyzer.h" />
@@ -132,8 +146,17 @@
     <ClInclude Include="Application\IApplication.h" />
     <ClInclude Include="Application\Keyboard\IKeyboard.h" />
     <ClInclude Include="Application\Keyboard\WindowsKeyboard.h" />
+    <ClInclude Include="Calculator\BinarizeTool.h" />
+    <ClInclude Include="Calculator\BlobTool.h" />
+    <ClInclude Include="Calculator\CalculatorBlobsBased\CalculatorBlobsBased.h" />
+    <ClInclude Include="Calculator\CropTool.h" />
     <ClInclude Include="Calculator\Data\CalculateData.h" />
+    <ClInclude Include="Calculator\FlipTool.h" />
+    <ClInclude Include="Calculator\IBinarizeTool.h" />
+    <ClInclude Include="Calculator\IBlobTool.h" />
     <ClInclude Include="Calculator\ICalculator.h" />
+    <ClInclude Include="Calculator\ICropTool.h" />
+    <ClInclude Include="Calculator\IFlipTool.h" />
     <ClInclude Include="Collector\CollectorWithVideo\CollectorWithVideo.h" />
     <ClInclude Include="Collector\Data\CollectData.h" />
     <ClInclude Include="Collector\ICollector.h" />

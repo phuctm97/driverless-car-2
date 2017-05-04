@@ -5,7 +5,8 @@ namespace sb
 {
 struct CalculateData
 {
-	
+	cv::Mat bgrImage;
+	cv::Mat binImage;
 };
 }
 

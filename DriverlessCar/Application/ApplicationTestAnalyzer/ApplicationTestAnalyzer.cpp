@@ -1,7 +1,5 @@
 #include "ApplicationTestAnalyzer.h"
 
-sb::IKeyboard* sb::ApplicationTestAnalyzer::getKeyboard() { return _keyboard; }
-
 void sb::ApplicationTestAnalyzer::run()
 {
 	// init
@@ -35,8 +33,6 @@ void sb::ApplicationTestAnalyzer::run()
 	delete collectData;
 	delete calculateData;
 	delete analyzeData;
-
-	release();
 }
 
 void sb::ApplicationTestAnalyzer::exit()
@@ -46,18 +42,28 @@ void sb::ApplicationTestAnalyzer::exit()
 
 void sb::ApplicationTestAnalyzer::release()
 {
-	_collector->release();
-	delete _collector;
-	_collector = nullptr;
+	if ( _keyboard != nullptr ) {
+		_keyboard->release();
+		delete _keyboard;
+	}
 
-	_calculator->release();
-	delete _calculator;
-	_calculator = nullptr;
+	if ( _collector != nullptr ) {
+		_collector->release();
+		delete _collector;
+	}
 
-	_analyzer->release();
-	delete _analyzer;
-	_analyzer = nullptr;
+	if ( _calculator != nullptr ) {
+		_calculator->release();
+		delete _calculator;
+	}
 
-	delete _keyboard;
-	_keyboard = nullptr;
+	if ( _analyzer != nullptr ) {
+		_analyzer->release();
+		delete _analyzer;
+	}
+}
+
+void sb::ApplicationTestAnalyzer::addKeyboardCallback( const std::function<void( int )>& callback )
+{
+	if ( _keyboard != nullptr ) _keyboard->addKeyboardCallback( callback );
 }

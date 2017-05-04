@@ -12,6 +12,8 @@ public:
 	virtual void checkBufferedKey() = 0;
 
 	virtual void addKeyboardCallback( const std::function<void( int )>& callback ) = 0;
+
+	virtual void release() = 0;
 };
 }
 

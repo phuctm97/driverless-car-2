@@ -21,10 +21,9 @@ public:
 
 	void exit() override;
 
-	IKeyboard* getKeyboard() override;
+	void release() override;
 
-private:
-	void release();
+	void addKeyboardCallback( const std::function<void(int)>& callback ) override;
 };
 }
 

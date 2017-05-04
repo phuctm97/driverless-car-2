@@ -1,5 +1,5 @@
-#ifndef __SB_APPLICATION_TEST_COLLECTOR_H__
-#define __SB_APPLICATION_TEST_COLLECTOR_H__
+#ifndef __SB_APPLICATION_TEST_CALCULATOR_H__
+#define __SB_APPLICATION_TEST_CALCULATOR_H__
 #include "../IApplication.h"
 #include "../../Collector/ICollector.h"
 #include "../../Calculator/ICalculator.h"
@@ -21,15 +21,14 @@ public:
 	ApplicationTestCalculator( ICollector* collector, ICalculator* calculator, IKeyboard* keyboard )
 		: _exiting( false ), _collector( collector ), _calculator( calculator ), _keyboard( keyboard ) {}
 
-	IKeyboard* getKeyboard() override;
-
 	void run() override;
 
 	void exit() override;
 
-private:
-	void release();
+	void release() override;
+
+	void addKeyboardCallback( const std::function<void(int)>& callback ) override;
 };
 }
 
-#endif //!__SB_APPLICATION_TEST_COLLECTOR_H__
+#endif //!__SB_APPLICATION_TEST_CALCULATOR_H__

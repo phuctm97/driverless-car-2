@@ -37,6 +37,15 @@
     <Filter Include="Application\Keyboard">
       <UniqueIdentifier>{5baa7249-7c31-4685-a428-b8e21bd2cef2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Analyzer\AnalyzerCasesBased">
+      <UniqueIdentifier>{9e261326-a114-4627-b59b-4adf8fd8fc6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Analyzer\AnalyzerCasesBased\Cases">
+      <UniqueIdentifier>{03dc3360-35f3-40f8-acde-6f523f36ffac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Calculator\CalculatorBlobsBased">
+      <UniqueIdentifier>{45c82682-5201-49b1-a143-5a1d8063a04c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Collector\CollectorWithVideo\CollectorWithVideo.cpp">
@@ -54,6 +63,33 @@
     </ClCompile>
     <ClCompile Include="Application\Keyboard\WindowsKeyboard.cpp">
       <Filter>Application\Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="Analyzer\AnalyzerCasesBased\AnalyzerCasesBased.cpp">
+      <Filter>Analyzer\AnalyzerCasesBased</Filter>
+    </ClCompile>
+    <ClCompile Include="Analyzer\AnalyzerCasesBased\CaseRepository.cpp">
+      <Filter>Analyzer\AnalyzerCasesBased</Filter>
+    </ClCompile>
+    <ClCompile Include="Analyzer\AnalyzerCasesBased\CasesResolver.cpp">
+      <Filter>Analyzer\AnalyzerCasesBased</Filter>
+    </ClCompile>
+    <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\BothLaneCase.cpp">
+      <Filter>Analyzer\AnalyzerCasesBased\Cases</Filter>
+    </ClCompile>
+    <ClCompile Include="Calculator\CalculatorBlobsBased\CalculatorBlobsBased.cpp">
+      <Filter>Calculator\CalculatorBlobsBased</Filter>
+    </ClCompile>
+    <ClCompile Include="Calculator\CropTool.cpp">
+      <Filter>Calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="Calculator\FlipTool.cpp">
+      <Filter>Calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="Calculator\BinarizeTool.cpp">
+      <Filter>Calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="Calculator\BlobTool.cpp">
+      <Filter>Calculator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,6 +131,48 @@
     </ClInclude>
     <ClInclude Include="Application\Keyboard\WindowsKeyboard.h">
       <Filter>Application\Keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="Analyzer\AnalyzerCasesBased\AnalyzerCasesBased.h">
+      <Filter>Analyzer\AnalyzerCasesBased</Filter>
+    </ClInclude>
+    <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\ICase.h">
+      <Filter>Analyzer\AnalyzerCasesBased\Cases</Filter>
+    </ClInclude>
+    <ClInclude Include="Analyzer\AnalyzerCasesBased\CaseRepository.h">
+      <Filter>Analyzer\AnalyzerCasesBased</Filter>
+    </ClInclude>
+    <ClInclude Include="Analyzer\AnalyzerCasesBased\CasesResolver.h">
+      <Filter>Analyzer\AnalyzerCasesBased</Filter>
+    </ClInclude>
+    <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\BothLaneCase.h">
+      <Filter>Analyzer\AnalyzerCasesBased\Cases</Filter>
+    </ClInclude>
+    <ClInclude Include="Calculator\CalculatorBlobsBased\CalculatorBlobsBased.h">
+      <Filter>Calculator\CalculatorBlobsBased</Filter>
+    </ClInclude>
+    <ClInclude Include="Calculator\ICropTool.h">
+      <Filter>Calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="Calculator\IFlipTool.h">
+      <Filter>Calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="Calculator\IBinarizeTool.h">
+      <Filter>Calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="Calculator\IBlobTool.h">
+      <Filter>Calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="Calculator\CropTool.h">
+      <Filter>Calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="Calculator\FlipTool.h">
+      <Filter>Calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="Calculator\BinarizeTool.h">
+      <Filter>Calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="Calculator\BlobTool.h">
+      <Filter>Calculator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

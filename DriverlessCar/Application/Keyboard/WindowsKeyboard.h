@@ -21,6 +21,8 @@ public:
 	void checkBufferedKey() override;
 
 	void addKeyboardCallback( const std::function<void( int )>& callback ) override;
+
+	void release() override;
 };
 }
 

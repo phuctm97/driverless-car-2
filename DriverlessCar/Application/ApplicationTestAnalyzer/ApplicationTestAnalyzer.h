@@ -23,15 +23,14 @@ private:
 public:
 	ApplicationTestAnalyzer( ICollector* collector, ICalculator* calculator, IAnalyzer* analyzer, IKeyboard* keybaord )
 		: _exiting( false ), _collector( collector ), _calculator( calculator ), _analyzer( analyzer ), _keyboard( keybaord ) {}
-
-	IKeyboard* getKeyboard() override;
 	
 	void run() override;
 	
 	void exit() override;
 
-private:
-	void release();
+	void release() override;
+
+	void addKeyboardCallback( const std::function<void(int)>& callback ) override;
 };
 }
 

@@ -13,3 +13,8 @@ void sb::WindowsKeyboard::addKeyboardCallback( const std::function<void( int )>&
 {
 	_keyboardEventHandlers.push_back( callback );
 }
+
+void sb::WindowsKeyboard::release()
+{
+	_keyboardEventHandlers.clear();
+}

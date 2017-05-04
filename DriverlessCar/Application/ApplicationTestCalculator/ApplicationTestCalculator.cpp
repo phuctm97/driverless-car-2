@@ -1,7 +1,5 @@
 #include "ApplicationTestCalculator.h"
 
-sb::IKeyboard* sb::ApplicationTestCalculator::getKeyboard() { return _keyboard; }
-
 void sb::ApplicationTestCalculator::run()
 {
 	// init
@@ -17,9 +15,15 @@ void sb::ApplicationTestCalculator::run()
 	while ( !_exiting ) {
 		if ( _collector->collect( collectData ) < 0 ) break;
 
+		cv::imshow( "Original image", collectData->colorImage );
+
 		if ( _calculator->calculate( collectData, calculateData ) ) break;
 
-		// act
+		cv::imshow( "BGR image", calculateData->bgrImage );
+
+		cv::imshow( "BIN image", calculateData->binImage );
+
+		cv::waitKey();
 
 		// keyboard event
 		if ( _keyboard != nullptr ) {
@@ -30,8 +34,6 @@ void sb::ApplicationTestCalculator::run()
 	// release
 	delete collectData;
 	delete calculateData;
-
-	release();
 }
 
 void sb::ApplicationTestCalculator::exit()
@@ -41,14 +43,23 @@ void sb::ApplicationTestCalculator::exit()
 
 void sb::ApplicationTestCalculator::release()
 {
-	_collector->release();
-	delete _collector;
-	_collector = nullptr;
+	if ( _keyboard != nullptr ) {
+		_keyboard->release();
+		delete _keyboard;
+	}
 
-	_calculator->release();
-	delete _calculator;
-	_calculator = nullptr;
+	if ( _collector != nullptr ) {
+		_collector->release();
+		delete _collector;
+	}
 
-	delete _keyboard;
-	_keyboard = nullptr;
+	if ( _calculator != nullptr ) {
+		_calculator->release();
+		delete _calculator;
+	}
+}
+
+void sb::ApplicationTestCalculator::addKeyboardCallback( const std::function<void( int )>& callback )
+{
+	if ( _keyboard != nullptr ) _keyboard->addKeyboardCallback( callback );
 }

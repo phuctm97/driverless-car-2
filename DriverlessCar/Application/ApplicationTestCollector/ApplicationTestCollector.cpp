@@ -23,8 +23,6 @@ void sb::ApplicationTestCollector::run()
 
 	// release
 	delete collectData;
-
-	release();
 }
 
 void sb::ApplicationTestCollector::exit()
@@ -32,14 +30,20 @@ void sb::ApplicationTestCollector::exit()
 	_exiting = true;
 }
 
-sb::IKeyboard* sb::ApplicationTestCollector::getKeyboard() { return _keyboard; }
-
 void sb::ApplicationTestCollector::release()
 {
-	_collector->release();
-	delete _collector;
-	_collector = nullptr;
+	if ( _keyboard != nullptr ) {
+		_keyboard->release();
+		delete _keyboard;
+	}
 
-	delete _keyboard;
-	_keyboard = nullptr;
+	if ( _collector != nullptr ) {
+		_collector->release();
+		delete _collector;
+	}
+}
+
+void sb::ApplicationTestCollector::addKeyboardCallback( const std::function<void( int )>& callback )
+{
+	if ( _keyboard != nullptr ) _keyboard->addKeyboardCallback( callback );
 }

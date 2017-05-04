@@ -8,12 +8,14 @@ class IApplication
 {
 public:
 	virtual ~IApplication() = default;
-	
-	virtual IKeyboard* getKeyboard() = 0;
 
 	virtual void run() = 0;
 
 	virtual void exit() = 0;
+
+	virtual void release() = 0;
+
+	virtual void addKeyboardCallback( const std::function<void( int )>& callback ) = 0;
 };
 }
 
