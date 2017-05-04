@@ -45,8 +45,8 @@ void composeApplication()
 
 	calculator = new sb::CalculatorBlobsBased( new sb::CropTool( cv::Rect( 0, 332, 640, 100 ) ),
 	                                           new sb::FlipTool(),
-	                                           new sb::BinarizeTool( 200 ),
-	                                           new sb::BlobTool() );
+	                                           new sb::BinarizeTool( 190 ),
+	                                           new sb::BlobTool( { 0.2,0.25,0.25,0.3 }, cv::Size( 640, 100 ) ) );
 
 	application = new sb::ApplicationTestCalculator( collector, calculator, new sb::WindowsKeyboard( 33 ) );
 }

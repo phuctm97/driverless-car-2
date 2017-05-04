@@ -23,7 +23,24 @@ void sb::ApplicationTestCalculator::run()
 
 		cv::imshow( "BIN image", calculateData->binImage );
 
-		cv::waitKey();
+		for( auto cit_blob = calculateData->blobs.cbegin(); cit_blob != calculateData->blobs.cend(); ++cit_blob ) {
+			cv::Mat img = calculateData->bgrImage.clone();
+
+			sb::Blob* blob = *cit_blob;
+			for( auto cit_childblob = blob->childBlobs.cbegin(); cit_childblob != blob->childBlobs.cend(); ++cit_childblob ) {
+				sb::Blob* childBlob = *cit_childblob;
+
+				if( childBlob->size == 0 ) continue;
+
+				cv::rectangle( img, childBlob->box.tl(), childBlob->box.br(), cv::Scalar( 0, 0, 255 ), 1 );
+				cv::circle( img, childBlob->origin, 3, cv::Scalar( 0, 255, 0 ), 2 );
+			}
+
+			cv::putText( img, std::to_string( blob->size ), cv::Point( calculateData->bgrImage.cols / 2, 30 ),
+									 cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar( 0, 255, 255 ), 2 );
+			cv::imshow( "Calculator", img );
+			cv::waitKey();
+		}
 
 		// keyboard event
 		if ( _keyboard != nullptr ) {
@@ -32,8 +49,15 @@ void sb::ApplicationTestCalculator::run()
 	}
 
 	// release
-	delete collectData;
-	delete calculateData;
+	if ( collectData != nullptr ) {
+		sb::release( collectData );
+		delete collectData;
+	}
+
+	if ( calculateData != nullptr ) {
+		sb::release( calculateData );
+		delete calculateData;
+	}
 }
 
 void sb::ApplicationTestCalculator::exit()

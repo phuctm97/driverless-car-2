@@ -9,6 +9,9 @@ struct CollectData
 {
 	cv::Mat colorImage;
 };
+
+void release( CollectData* collectData );
+
 }
 
 #endif //!__SB_COLLECT_DATA_H__

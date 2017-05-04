@@ -14,6 +14,9 @@ private:
 	CasesResolver* _casesResolver;
 
 public:
+	AnalyzerCasesBased()
+		: _caseRepository( nullptr ), _casesResolver( nullptr ) { }
+
 	int init() override;
 
 	int analyze( CollectData* collectData, CalculateData* calculateData, AnalyzeData* analyzeData ) override;

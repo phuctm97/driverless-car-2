@@ -1,6 +1,6 @@
-#include "ApplicationTestAnalyzer.h"
+#include "ApplicationFinal.h"
 
-void sb::ApplicationTestAnalyzer::run()
+void sb::ApplicationFinal::run()
 {
 	// init
 	_exiting = false;
@@ -12,21 +12,14 @@ void sb::ApplicationTestAnalyzer::run()
 	if ( _collector == nullptr || _collector->init() < 0 ) _exiting = true;
 	if ( _calculator == nullptr || _calculator->init() < 0 ) _exiting = true;
 	if ( _analyzer == nullptr || _analyzer->init() < 0 ) _exiting = true;
+	if ( _driver == nullptr || _driver->init() < 0 ) _exiting = false;
 
 	// run
 	while ( !_exiting ) {
 		if ( _collector->collect( collectData ) < 0 ) break;
-
 		if ( _calculator->calculate( collectData, calculateData ) < 0 ) break;
-
 		if ( _analyzer->analyze( collectData, calculateData, analyzeData ) < 0 ) break;
-
-		// act
-
-		// keyboard event
-		if ( _keyboard != nullptr ) {
-			_keyboard->checkBufferedKey();
-		}
+		if ( _driver->drive( analyzeData ) < 0 ) break;
 	}
 
 	// release
@@ -46,12 +39,12 @@ void sb::ApplicationTestAnalyzer::run()
 	}
 }
 
-void sb::ApplicationTestAnalyzer::exit()
+void sb::ApplicationFinal::exit()
 {
 	_exiting = true;
 }
 
-void sb::ApplicationTestAnalyzer::release()
+void sb::ApplicationFinal::release()
 {
 	if ( _keyboard != nullptr ) {
 		_keyboard->release();
@@ -72,9 +65,14 @@ void sb::ApplicationTestAnalyzer::release()
 		_analyzer->release();
 		delete _analyzer;
 	}
+
+	if ( _driver != nullptr ) {
+		_driver->release();
+		delete _driver;
+	}
 }
 
-void sb::ApplicationTestAnalyzer::addKeyboardCallback( const std::function<void( int )>& callback )
+void sb::ApplicationFinal::addKeyboardCallback( const std::function<void( int )>& callback )
 {
 	if ( _keyboard != nullptr ) _keyboard->addKeyboardCallback( callback );
 }

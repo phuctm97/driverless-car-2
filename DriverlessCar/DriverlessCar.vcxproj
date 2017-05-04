@@ -120,6 +120,8 @@
     <ClCompile Include="Analyzer\AnalyzerCasesBased\CaseRepository.cpp" />
     <ClCompile Include="Analyzer\AnalyzerCasesBased\CasesResolver.cpp" />
     <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\BothLaneCase.cpp" />
+    <ClCompile Include="Analyzer\Data\AnalyzeData.cpp" />
+    <ClCompile Include="Application\ApplicationFinal\ApplicationFinal.cpp" />
     <ClCompile Include="Application\ApplicationTestAnalyzer\ApplicationTestAnalyzer.cpp" />
     <ClCompile Include="Application\ApplicationTestCalculator\ApplicationTestCalculator.cpp" />
     <ClCompile Include="Application\ApplicationTestCollector\ApplicationTestCollector.cpp" />
@@ -128,8 +130,12 @@
     <ClCompile Include="Calculator\BlobTool.cpp" />
     <ClCompile Include="Calculator\CalculatorBlobsBased\CalculatorBlobsBased.cpp" />
     <ClCompile Include="Calculator\CropTool.cpp" />
+    <ClCompile Include="Calculator\Data\Blob.cpp" />
+    <ClCompile Include="Calculator\Data\CalculateData.cpp" />
     <ClCompile Include="Calculator\FlipTool.cpp" />
     <ClCompile Include="Collector\CollectorWithVideo\CollectorWithVideo.cpp" />
+    <ClCompile Include="Collector\Data\CollectData.cpp" />
+    <ClCompile Include="Driver\DriverStupid\DriverStupid.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +146,7 @@
     <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\ICase.h" />
     <ClInclude Include="Analyzer\Data\AnalyzeData.h" />
     <ClInclude Include="Analyzer\IAnalyzer.h" />
+    <ClInclude Include="Application\ApplicationFinal\ApplicationFinal.h" />
     <ClInclude Include="Application\ApplicationTestAnalyzer\ApplicationTestAnalyzer.h" />
     <ClInclude Include="Application\ApplicationTestCalculator\ApplicationTestCalculator.h" />
     <ClInclude Include="Application\ApplicationTestCollector\ApplicationTestCollector.h" />
@@ -150,6 +157,7 @@
     <ClInclude Include="Calculator\BlobTool.h" />
     <ClInclude Include="Calculator\CalculatorBlobsBased\CalculatorBlobsBased.h" />
     <ClInclude Include="Calculator\CropTool.h" />
+    <ClInclude Include="Calculator\Data\Blob.h" />
     <ClInclude Include="Calculator\Data\CalculateData.h" />
     <ClInclude Include="Calculator\FlipTool.h" />
     <ClInclude Include="Calculator\IBinarizeTool.h" />
@@ -160,6 +168,8 @@
     <ClInclude Include="Collector\CollectorWithVideo\CollectorWithVideo.h" />
     <ClInclude Include="Collector\Data\CollectData.h" />
     <ClInclude Include="Collector\ICollector.h" />
+    <ClInclude Include="Driver\DriverStupid\DriverStupid.h" />
+    <ClInclude Include="Driver\IDriver.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

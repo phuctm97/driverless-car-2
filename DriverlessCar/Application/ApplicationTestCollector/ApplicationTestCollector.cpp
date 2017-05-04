@@ -22,7 +22,10 @@ void sb::ApplicationTestCollector::run()
 	}
 
 	// release
-	delete collectData;
+	if ( collectData != nullptr ) {
+		sb::release( collectData );
+		delete collectData;
+	}
 }
 
 void sb::ApplicationTestCollector::exit()

@@ -7,11 +7,16 @@ const std::list<sb::ICase*>& sb::CaseRepository::getAll() const
 
 void sb::CaseRepository::push( ICase* newCase )
 {
-	if( _cases.size() == _capacity ) {
+	if ( _cases.size() == _capacity ) {
 		_cases.pop_back();
 	}
 
 	_cases.push_front( newCase );
 }
 
-void sb::CaseRepository::release() {}
+void sb::CaseRepository::release()
+{
+	for ( ICase* caseToRelease : _cases ) {
+		delete caseToRelease;
+	}
+}

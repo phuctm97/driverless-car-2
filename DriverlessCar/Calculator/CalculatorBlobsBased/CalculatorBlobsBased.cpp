@@ -24,7 +24,7 @@ int sb::CalculatorBlobsBased::calculate( CollectData* collectData, CalculateData
 		return -1;
 	}
 
-	if ( _blobTool->findBlobs( calculateData->binImage ) < 0 ) {
+	if ( _blobTool->findBlobs( calculateData->binImage, calculateData->blobs ) < 0 ) {
 		std::cerr << "CalculatorBlobsBased: find blobs fail" << std::endl;
 		return -1;
 	}

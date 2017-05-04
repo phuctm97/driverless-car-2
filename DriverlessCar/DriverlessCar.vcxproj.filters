@@ -46,6 +46,15 @@
     <Filter Include="Calculator\CalculatorBlobsBased">
       <UniqueIdentifier>{45c82682-5201-49b1-a143-5a1d8063a04c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\ApplicationFinal">
+      <UniqueIdentifier>{44e6684b-a757-4717-8e95-7d35671dc42f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Driver">
+      <UniqueIdentifier>{289a3aef-ff53-4ca8-bf3f-19dbcb69e515}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Driver\DriverStupid">
+      <UniqueIdentifier>{d342282f-2702-4b0d-983b-dd65eada1d27}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Collector\CollectorWithVideo\CollectorWithVideo.cpp">
@@ -90,6 +99,24 @@
     </ClCompile>
     <ClCompile Include="Calculator\BlobTool.cpp">
       <Filter>Calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="Calculator\Data\Blob.cpp">
+      <Filter>Calculator\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Calculator\Data\CalculateData.cpp">
+      <Filter>Calculator\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\ApplicationFinal\ApplicationFinal.cpp">
+      <Filter>Application\ApplicationFinal</Filter>
+    </ClCompile>
+    <ClCompile Include="Collector\Data\CollectData.cpp">
+      <Filter>Collector\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Analyzer\Data\AnalyzeData.cpp">
+      <Filter>Analyzer\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Driver\DriverStupid\DriverStupid.cpp">
+      <Filter>Driver\DriverStupid</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -173,6 +200,18 @@
     </ClInclude>
     <ClInclude Include="Calculator\BlobTool.h">
       <Filter>Calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="Calculator\Data\Blob.h">
+      <Filter>Calculator\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Driver\IDriver.h">
+      <Filter>Driver</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\ApplicationFinal\ApplicationFinal.h">
+      <Filter>Application\ApplicationFinal</Filter>
+    </ClInclude>
+    <ClInclude Include="Driver\DriverStupid\DriverStupid.h">
+      <Filter>Driver\DriverStupid</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

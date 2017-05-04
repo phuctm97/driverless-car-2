@@ -33,8 +33,14 @@ int sb::AnalyzerCasesBased::analyze( CollectData* collectData, CalculateData* ca
 
 void sb::AnalyzerCasesBased::release()
 {
-	_caseRepository->release();
-	delete _caseRepository;
+	if ( _caseRepository != nullptr ) {
+		_caseRepository->release();
+		delete _caseRepository;
+		_caseRepository = nullptr;
+	}
 
-	delete _casesResolver;
+	if ( _casesResolver != nullptr ) {
+		delete _casesResolver;
+		_caseRepository = nullptr;
+	}
 }
