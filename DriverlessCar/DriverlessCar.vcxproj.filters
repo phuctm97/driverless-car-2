@@ -79,9 +79,6 @@
     <ClCompile Include="Analyzer\AnalyzerCasesBased\CaseRepository.cpp">
       <Filter>Analyzer\AnalyzerCasesBased</Filter>
     </ClCompile>
-    <ClCompile Include="Analyzer\AnalyzerCasesBased\CasesResolver.cpp">
-      <Filter>Analyzer\AnalyzerCasesBased</Filter>
-    </ClCompile>
     <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\BothLaneCase.cpp">
       <Filter>Analyzer\AnalyzerCasesBased\Cases</Filter>
     </ClCompile>
@@ -117,6 +114,9 @@
     </ClCompile>
     <ClCompile Include="Driver\DriverStupid\DriverStupid.cpp">
       <Filter>Driver\DriverStupid</Filter>
+    </ClCompile>
+    <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\ICase.cpp">
+      <Filter>Analyzer\AnalyzerCasesBased\Cases</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -168,9 +168,6 @@
     <ClInclude Include="Analyzer\AnalyzerCasesBased\CaseRepository.h">
       <Filter>Analyzer\AnalyzerCasesBased</Filter>
     </ClInclude>
-    <ClInclude Include="Analyzer\AnalyzerCasesBased\CasesResolver.h">
-      <Filter>Analyzer\AnalyzerCasesBased</Filter>
-    </ClInclude>
     <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\BothLaneCase.h">
       <Filter>Analyzer\AnalyzerCasesBased\Cases</Filter>
     </ClInclude>
@@ -212,6 +209,9 @@
     </ClInclude>
     <ClInclude Include="Driver\DriverStupid\DriverStupid.h">
       <Filter>Driver\DriverStupid</Filter>
+    </ClInclude>
+    <ClInclude Include="Calculator\Data\BlobRow.h">
+      <Filter>Calculator\Data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -16,12 +16,11 @@ void sb::ApplicationTestAnalyzer::run()
 	// run
 	while ( !_exiting ) {
 		if ( _collector->collect( collectData ) < 0 ) break;
-
 		if ( _calculator->calculate( collectData, calculateData ) < 0 ) break;
-
 		if ( _analyzer->analyze( collectData, calculateData, analyzeData ) < 0 ) break;
+		
+		// test
 
-		// act
 
 		// keyboard event
 		if ( _keyboard != nullptr ) {
@@ -77,4 +76,9 @@ void sb::ApplicationTestAnalyzer::release()
 void sb::ApplicationTestAnalyzer::addKeyboardCallback( const std::function<void( int )>& callback )
 {
 	if ( _keyboard != nullptr ) _keyboard->addKeyboardCallback( callback );
+}
+
+void sb::ApplicationTestAnalyzer::showResult()
+{
+	
 }

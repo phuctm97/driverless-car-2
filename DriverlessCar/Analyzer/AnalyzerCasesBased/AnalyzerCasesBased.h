@@ -3,7 +3,6 @@
 
 #include "../IAnalyzer.h"
 #include "CaseRepository.h"
-#include "CasesResolver.h"
 
 namespace sb
 {
@@ -11,11 +10,10 @@ class AnalyzerCasesBased : public IAnalyzer
 {
 private:
 	CaseRepository* _caseRepository;
-	CasesResolver* _casesResolver;
 
 public:
 	AnalyzerCasesBased()
-		: _caseRepository( nullptr ), _casesResolver( nullptr ) { }
+		: _caseRepository( nullptr ){ }
 
 	int init() override;
 

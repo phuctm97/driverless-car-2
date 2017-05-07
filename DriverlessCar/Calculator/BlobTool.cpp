@@ -52,6 +52,9 @@ int sb::BlobTool::findBlobs( const cv::Mat& binImage, std::vector<sb::Blob*>& bl
 			// find pixels in blob
 			for( int i = rect.y; i < (rect.y + rect.height); i++ ) {
 				int* row2 = reinterpret_cast<int*>(labelImage.ptr( i ));
+				BlobRow blobRow;
+				blobRow.row = i;
+
 				for( int j = rect.x; j < (rect.x + rect.width); j++ ) {
 					if( row2[j] != labelCount )
 						continue;
@@ -80,6 +83,18 @@ int sb::BlobTool::findBlobs( const cv::Mat& binImage, std::vector<sb::Blob*>& bl
 							break;
 						}
 					}
+
+					// calculate width
+					if( blobRow.minX < 0 )  blobRow.minX = j;
+					blobRow.minX = MIN( blobRow.minX, j );
+
+					if( blobRow.maxX < 0 ) blobRow.maxX = j;
+					blobRow.maxX = MAX( blobRow.maxX, j );
+				}
+
+				if( blobRow.minX >= 0 && blobRow.maxX >= 0 ) {
+					blobRow.width = blobRow.maxX - blobRow.minX + 1;
+					blob->rows.push_back( blobRow );
 				}
 			}
 
@@ -90,6 +105,7 @@ int sb::BlobTool::findBlobs( const cv::Mat& binImage, std::vector<sb::Blob*>& bl
 				blob->size = std::get<6>( blobInfo );
 				blob->origin = cv::Point( static_cast<int>(std::get<4>( blobInfo ) / blob->size),
 																	static_cast<int>(std::get<5>( blobInfo ) / blob->size) );
+				std::reverse( blob->rows.begin(), blob->rows.end() );
 
 				auto cit_info = childBlobsInfo.cbegin();
 				auto cit_childblob = blob->childBlobs.cbegin();

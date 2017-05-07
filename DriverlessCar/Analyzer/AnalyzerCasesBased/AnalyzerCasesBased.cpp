@@ -1,46 +1,30 @@
 #include "AnalyzerCasesBased.h"
+#include "Cases/BothLaneCase.h"
 
 int sb::AnalyzerCasesBased::init()
 {
+	_caseRepository = new CaseRepository( 10 );
 	return 0;
 }
 
 int sb::AnalyzerCasesBased::analyze( CollectData* collectData, CalculateData* calculateData, AnalyzeData* analyzeData )
 {
-	// predict cases
-	std::vector<ICase*> possibleCases;
-	_casesResolver->predictCases( _caseRepository, collectData, calculateData, possibleCases );
-
-	// check cases
-	auto it_case = possibleCases.cbegin();
-	for ( ; it_case != possibleCases.cend(); ++it_case ) {
-		ICase* possibleCase = *it_case;
-		if ( possibleCase->analyze( collectData, calculateData, analyzeData ) >= 0 ) break;
+	ICase* lastCase = nullptr;
+	if( _caseRepository->empty() ) {
+		lastCase = new BothLaneCase();
+	}
+	else {
+		lastCase = _caseRepository->last();
 	}
 
-	// result, not any case passed
-	if ( it_case == possibleCases.cend() ) {
-		for ( auto caseToRelease : possibleCases ) delete caseToRelease; // release cases
-		return -1;
-	}
-
-	// push new case to repository
-	_caseRepository->push( *it_case );
-	for ( auto caseToRelease : possibleCases ) if ( caseToRelease != *it_case ) delete caseToRelease; // release cases
-
-	return 0;
+	return lastCase->analyze( _caseRepository, collectData, calculateData, analyzeData );
 }
 
 void sb::AnalyzerCasesBased::release()
 {
-	if ( _caseRepository != nullptr ) {
+	if( _caseRepository != nullptr ) {
 		_caseRepository->release();
 		delete _caseRepository;
-		_caseRepository = nullptr;
-	}
-
-	if ( _casesResolver != nullptr ) {
-		delete _casesResolver;
 		_caseRepository = nullptr;
 	}
 }

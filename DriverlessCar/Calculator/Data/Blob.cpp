@@ -9,4 +9,5 @@ void sb::release( Blob* blob )
 		delete *cit_childblob;
 	}
 	blob->childBlobs.clear();
+	blob->rows.clear();
 }

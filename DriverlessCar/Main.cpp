@@ -7,14 +7,20 @@
 #include "Calculator/BinarizeTool.h"
 #include "Calculator/BlobTool.h"
 #include "Analyzer/IAnalyzer.h"
+#include "Analyzer/AnalyzerCasesBased/AnalyzerCasesBased.h"
 #include "Application/IApplication.h"
 #include "Application/Keyboard/WindowsKeyboard.h"
 #include "Application/ApplicationTestCollector/ApplicationTestCollector.h"
 #include "Application/ApplicationTestCalculator/ApplicationTestCalculator.h"
+#include "Application/ApplicationTestAnalyzer/ApplicationTestAnalyzer.h"
 
 sb::IApplication* application = nullptr;
 
-void composeApplication();
+void composeApplicationTestCollector();
+
+void composeApplicationTestCalculator();
+
+void composeApplicationTestAnalyzer();
 
 void releaseApplication();
 
@@ -22,9 +28,9 @@ void onKeyPressed( int key );
 
 int main( const int argc, const char** argv )
 {
-	composeApplication();
+	composeApplicationTestAnalyzer();
 
-	if ( application == nullptr ) return -1;
+	if( application == nullptr ) return -1;
 
 	application->addKeyboardCallback( &onKeyPressed );
 
@@ -35,7 +41,16 @@ int main( const int argc, const char** argv )
 	return 0;
 }
 
-void composeApplication()
+void composeApplicationTestCollector()
+{
+	sb::ICollector* collector = nullptr;
+
+	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-3.avi" );
+
+	application = new sb::ApplicationTestCollector( collector, new sb::WindowsKeyboard( 33 ) );
+}
+
+void composeApplicationTestCalculator()
 {
 	sb::ICollector* collector = nullptr;
 
@@ -44,12 +59,33 @@ void composeApplication()
 	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-3.avi" );
 
 	calculator = new sb::CalculatorBlobsBased( new sb::CropTool( cv::Rect( 0, 332, 640, 100 ) ),
-	                                           new sb::FlipTool(),
-	                                           new sb::BinarizeTool( 190 ),
-	                                           new sb::BlobTool( { 0.2,0.25,0.25,0.3 }, cv::Size( 640, 100 ) ) );
+																						 new sb::FlipTool(),
+																						 new sb::BinarizeTool( 190 ),
+																						 new sb::BlobTool( { 0.2,0.25,0.25,0.3 }, cv::Size( 640, 100 ) ) );
 
 	application = new sb::ApplicationTestCalculator( collector, calculator, new sb::WindowsKeyboard( 33 ) );
 }
+
+void composeApplicationTestAnalyzer()
+{
+	sb::ICollector* collector = nullptr;
+
+	sb::ICalculator* calculator = nullptr;
+
+	sb::IAnalyzer* analyzer = nullptr;
+
+	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-3.avi" );
+
+	calculator = new sb::CalculatorBlobsBased( new sb::CropTool( cv::Rect( 0, 332, 640, 100 ) ),
+																						 new sb::FlipTool(),
+																						 new sb::BinarizeTool( 190 ),
+																						 new sb::BlobTool( { 0.2,0.25,0.25,0.3 }, cv::Size( 640, 100 ) ) );
+
+	analyzer = new sb::AnalyzerCasesBased();
+
+	application = new sb::ApplicationTestAnalyzer( collector, calculator, analyzer, new sb::WindowsKeyboard( 33 ) );
+}
+
 
 void releaseApplication()
 {
@@ -58,5 +94,5 @@ void releaseApplication()
 
 void onKeyPressed( int key )
 {
-	if ( key == 27 ) application->exit();
+	if( key == 27 ) application->exit();
 }

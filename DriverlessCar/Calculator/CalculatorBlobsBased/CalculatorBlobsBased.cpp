@@ -9,6 +9,8 @@ int sb::CalculatorBlobsBased::init()
 
 int sb::CalculatorBlobsBased::calculate( CollectData* collectData, CalculateData* calculateData )
 {
+	sb::release( calculateData );
+
 	if ( _cropTool->crop( collectData->colorImage, calculateData->bgrImage ) < 0 ) {
 		std::cerr << "CalculatorBlobsBased: crop image fail" << std::endl;
 		return -1;

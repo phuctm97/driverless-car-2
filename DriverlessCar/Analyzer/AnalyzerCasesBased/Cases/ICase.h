@@ -7,6 +7,7 @@
 
 namespace sb
 {
+class CaseRepository;
 
 enum CaseType
 {
@@ -20,7 +21,7 @@ public:
 
 	virtual int getType() = 0;
 
-	virtual int analyze( CollectData* collectData, CalculateData* calculateData, AnalyzeData* analyzeData ) = 0;
+	virtual int analyze( CaseRepository* caseRepository, CollectData* collectData, CalculateData* calculateData, AnalyzeData* analyzeData ) = 0;
 };
 }
 

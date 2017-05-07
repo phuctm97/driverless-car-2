@@ -1,6 +1,7 @@
 #ifndef __SB_CASE_REPOSITORY_H__
 #define __SB_CASE_REPOSITORY_H__
-#include <queue>
+
+#include <list>
 #include "Cases/ICase.h"
 
 namespace sb
@@ -16,7 +17,11 @@ public:
 	CaseRepository( int capacity )
 		: _capacity( capacity ) {}
 
+	bool empty() const;
+
 	const std::list<ICase*>& getAll() const;
+	
+	ICase* last() const;
 
 	void push( ICase* newCase );
 

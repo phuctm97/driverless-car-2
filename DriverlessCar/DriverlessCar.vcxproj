@@ -118,8 +118,8 @@
   <ItemGroup>
     <ClCompile Include="Analyzer\AnalyzerCasesBased\AnalyzerCasesBased.cpp" />
     <ClCompile Include="Analyzer\AnalyzerCasesBased\CaseRepository.cpp" />
-    <ClCompile Include="Analyzer\AnalyzerCasesBased\CasesResolver.cpp" />
     <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\BothLaneCase.cpp" />
+    <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\ICase.cpp" />
     <ClCompile Include="Analyzer\Data\AnalyzeData.cpp" />
     <ClCompile Include="Application\ApplicationFinal\ApplicationFinal.cpp" />
     <ClCompile Include="Application\ApplicationTestAnalyzer\ApplicationTestAnalyzer.cpp" />
@@ -141,7 +141,6 @@
   <ItemGroup>
     <ClInclude Include="Analyzer\AnalyzerCasesBased\AnalyzerCasesBased.h" />
     <ClInclude Include="Analyzer\AnalyzerCasesBased\CaseRepository.h" />
-    <ClInclude Include="Analyzer\AnalyzerCasesBased\CasesResolver.h" />
     <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\BothLaneCase.h" />
     <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\ICase.h" />
     <ClInclude Include="Analyzer\Data\AnalyzeData.h" />
@@ -158,6 +157,7 @@
     <ClInclude Include="Calculator\CalculatorBlobsBased\CalculatorBlobsBased.h" />
     <ClInclude Include="Calculator\CropTool.h" />
     <ClInclude Include="Calculator\Data\Blob.h" />
+    <ClInclude Include="Calculator\Data\BlobRow.h" />
     <ClInclude Include="Calculator\Data\CalculateData.h" />
     <ClInclude Include="Calculator\FlipTool.h" />
     <ClInclude Include="Calculator\IBinarizeTool.h" />

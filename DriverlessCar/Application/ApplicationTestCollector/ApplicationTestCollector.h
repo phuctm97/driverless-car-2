@@ -23,7 +23,7 @@ public:
 
 	void release() override;
 
-	void addKeyboardCallback( const std::function<void(int)>& callback ) override;
+	void addKeyboardCallback( const std::function<void( int )>& callback ) override;
 };
 }
 

@@ -49,4 +49,5 @@ void sb::ApplicationTestCollector::release()
 void sb::ApplicationTestCollector::addKeyboardCallback( const std::function<void( int )>& callback )
 {
 	if ( _keyboard != nullptr ) _keyboard->addKeyboardCallback( callback );
+
 }
