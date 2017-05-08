@@ -13,14 +13,22 @@ void sb::ApplicationTestAnalyzer::run()
 	if ( _calculator == nullptr || _calculator->init() < 0 ) _exiting = true;
 	if ( _analyzer == nullptr || _analyzer->init() < 0 ) _exiting = true;
 
+	cv::Mat debugImage;
+
 	// run
 	while ( !_exiting ) {
 		if ( _collector->collect( collectData ) < 0 ) break;
+		debugImage = collectData->colorImage.clone();
+
 		if ( _calculator->calculate( collectData, calculateData ) < 0 ) break;
 		if ( _analyzer->analyze( collectData, calculateData, analyzeData ) < 0 ) break;
-		
-		// test
 
+		// test
+		{
+			cv::circle( debugImage, analyzeData->target + cv::Point( 0, 332 ), 5, cv::Scalar( 0, 255, 0 ), 3 );
+			cv::imshow( "Analyzer", debugImage );
+			cv::waitKey();
+		}
 
 		// keyboard event
 		if ( _keyboard != nullptr ) {
@@ -78,7 +86,4 @@ void sb::ApplicationTestAnalyzer::addKeyboardCallback( const std::function<void(
 	if ( _keyboard != nullptr ) _keyboard->addKeyboardCallback( callback );
 }
 
-void sb::ApplicationTestAnalyzer::showResult()
-{
-	
-}
+void sb::ApplicationTestAnalyzer::showResult() {}

@@ -11,7 +11,9 @@ class CaseRepository;
 
 enum CaseType
 {
-	BOTH_LANE_CASE = 0
+	BOTH_LANE_SOLID_CASE = 0,
+	LEFT_LANE_SOLID_CASE = 1,
+	RIGHT_LANE_SOLID_CASE = 2
 };
 
 class ICase

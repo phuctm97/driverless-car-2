@@ -118,8 +118,10 @@
   <ItemGroup>
     <ClCompile Include="Analyzer\AnalyzerCasesBased\AnalyzerCasesBased.cpp" />
     <ClCompile Include="Analyzer\AnalyzerCasesBased\CaseRepository.cpp" />
-    <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\BothLaneCase.cpp" />
+    <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\BothLaneSolidCase.cpp" />
     <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\ICase.cpp" />
+    <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\LeftLaneSolidCase.cpp" />
+    <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\RightLaneSolidCase.cpp" />
     <ClCompile Include="Analyzer\Data\AnalyzeData.cpp" />
     <ClCompile Include="Application\ApplicationFinal\ApplicationFinal.cpp" />
     <ClCompile Include="Application\ApplicationTestAnalyzer\ApplicationTestAnalyzer.cpp" />
@@ -141,8 +143,10 @@
   <ItemGroup>
     <ClInclude Include="Analyzer\AnalyzerCasesBased\AnalyzerCasesBased.h" />
     <ClInclude Include="Analyzer\AnalyzerCasesBased\CaseRepository.h" />
-    <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\BothLaneCase.h" />
+    <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\BothLaneSolidCase.h" />
     <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\ICase.h" />
+    <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\LeftLaneSolidCase.h" />
+    <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\RightLaneSolidCase.h" />
     <ClInclude Include="Analyzer\Data\AnalyzeData.h" />
     <ClInclude Include="Analyzer\IAnalyzer.h" />
     <ClInclude Include="Application\ApplicationFinal\ApplicationFinal.h" />

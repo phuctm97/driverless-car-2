@@ -13,7 +13,7 @@ struct BlobRow
 
 	int row = -1;
 
-	int tag = 0;
+	int tag = 111;
 };
 
 }

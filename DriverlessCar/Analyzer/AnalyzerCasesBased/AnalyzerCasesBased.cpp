@@ -1,5 +1,5 @@
 #include "AnalyzerCasesBased.h"
-#include "Cases/BothLaneCase.h"
+#include "Cases/BothLaneSolidCase.h"
 
 int sb::AnalyzerCasesBased::init()
 {
@@ -11,7 +11,7 @@ int sb::AnalyzerCasesBased::analyze( CollectData* collectData, CalculateData* ca
 {
 	ICase* lastCase = nullptr;
 	if( _caseRepository->empty() ) {
-		lastCase = new BothLaneCase();
+		lastCase = new BothLaneSolidCase();
 	}
 	else {
 		lastCase = _caseRepository->last();

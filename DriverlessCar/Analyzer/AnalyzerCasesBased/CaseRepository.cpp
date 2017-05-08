@@ -15,16 +15,31 @@ sb::ICase* sb::CaseRepository::last() const
 
 void sb::CaseRepository::push( ICase* newCase )
 {
-	if ( _cases.size() == _capacity ) {
+	if( _cases.size() == _capacity ) {
 		_cases.pop_back();
 	}
 
 	_cases.push_front( newCase );
 }
 
+void sb::CaseRepository::mapRoadWidth( int row, int width )
+{
+	auto it = _rowToRoadWidthMap.find( row );
+
+	if( it == _rowToRoadWidthMap.end() ) {
+		_rowToRoadWidthMap.emplace( row, width );
+	}
+	else {
+		it->second = width;
+	}
+}
+
 void sb::CaseRepository::release()
 {
-	for ( ICase* caseToRelease : _cases ) {
+	for( ICase* caseToRelease : _cases ) {
 		delete caseToRelease;
 	}
+
+	_cases.clear();
+	_rowToRoadWidthMap.clear();
 }

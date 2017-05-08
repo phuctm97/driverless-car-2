@@ -8,13 +8,7 @@ namespace sb
 
 struct AnalyzeData
 {
-	int currentCase;
-
 	cv::Point target;
-
-	std::vector<cv::Point> leftKnots;
-
-	std::vector<cv::Point> rightKnots;
 };
 
 void release( AnalyzeData* data );
