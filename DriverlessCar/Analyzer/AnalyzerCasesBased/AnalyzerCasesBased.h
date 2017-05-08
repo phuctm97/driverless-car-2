@@ -3,6 +3,7 @@
 
 #include "../IAnalyzer.h"
 #include "CaseRepository.h"
+#include "../Data/Params/AnalyzeParams.h"
 
 namespace sb
 {
@@ -11,9 +12,11 @@ class AnalyzerCasesBased : public IAnalyzer
 private:
 	CaseRepository* _caseRepository;
 
+	AnalyzeParams* _params;
+
 public:
-	AnalyzerCasesBased()
-		: _caseRepository( nullptr ){ }
+	AnalyzerCasesBased( AnalyzeParams* params )
+		: _caseRepository( nullptr ), _params( params ) { }
 
 	int init() override;
 

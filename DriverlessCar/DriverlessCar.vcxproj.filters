@@ -225,5 +225,8 @@
     <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\RightLaneSolidCase.h">
       <Filter>Analyzer\AnalyzerCasesBased\Cases</Filter>
     </ClInclude>
+    <ClInclude Include="Analyzer\Data\Params\AnalyzeParams.h">
+      <Filter>Analyzer\Data</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,20 +2,16 @@
 #define __SB_BOTH_LANE_SOLID_CASE_H__
 
 #include "ICase.h"
+#include "../../Data/Params/AnalyzeParams.h"
 
 namespace sb
 {
 class BothLaneSolidCase : public ICase
 {
 private:
-	static const int MIN_LANE_BLOB_SIZE;
-	static const int MIN_LANE_WIDTH_1;
-	static const int MAX_LANE_WIDTH_1;
-	static const int MIN_LANE_WIDTH_2;
-	static const int MAX_LANE_WIDTH_2;
-	static const int MAX_ROW_WIDTH_DIFF;
-	static const int SECTION_HOPS_TO_LIVE;
+	AnalyzeParams* _params;
 
+	// analyze data
 	cv::Point _leftLaneOrigin, _rightLaneOrigin;
 	int _leftLaneSize, _rightLaneSize;
 	int _leftLaneHeight, _rightLaneHeight;
@@ -23,6 +19,35 @@ private:
 	std::vector<std::pair<int, int>> _leftGoodSections, _leftBadSections, _rightGoodSections, _rightBadSections;
 
 public:
+	// ReSharper disable CppPossiblyUninitializedMember
+	BothLaneSolidCase( AnalyzeParams* params )
+	// ReSharper restore CppPossiblyUninitializedMember
+		: _params( params ) { }
+
+	const cv::Point& getLeftLaneOrigin() const;
+
+	const cv::Point& getRightLaneOrigin() const;
+
+	const int& getLeftLaneSize() const;
+
+	const int& getRightLaneSize() const;
+
+	const int& getLeftLaneHeight() const;
+
+	const int& getRightLaneHeight() const;
+
+	const std::vector<BlobRow>& getLeftRows() const;
+
+	const std::vector<BlobRow>& getRightRows() const;
+
+	const std::vector<std::pair<int, int>>& getLeftGoodSections() const;
+
+	const std::vector<std::pair<int, int>>& getLeftBadSections() const;
+
+	const std::vector<std::pair<int, int>>& getRightGoodSections() const;
+
+	const std::vector<std::pair<int, int>>& getRightBadSections() const;
+
 	int getType() override;
 
 	int analyze( CaseRepository* caseRepository, CollectData* collectData, CalculateData* calculateData, AnalyzeData* analyzeData ) override;

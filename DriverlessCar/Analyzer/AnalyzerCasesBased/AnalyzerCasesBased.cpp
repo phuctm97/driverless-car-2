@@ -10,8 +10,8 @@ int sb::AnalyzerCasesBased::init()
 int sb::AnalyzerCasesBased::analyze( CollectData* collectData, CalculateData* calculateData, AnalyzeData* analyzeData )
 {
 	ICase* lastCase = nullptr;
-	if( _caseRepository->empty() ) {
-		lastCase = new BothLaneSolidCase();
+	if ( _caseRepository->empty() ) {
+		lastCase = new BothLaneSolidCase( _params );
 	}
 	else {
 		lastCase = _caseRepository->last();
@@ -22,9 +22,13 @@ int sb::AnalyzerCasesBased::analyze( CollectData* collectData, CalculateData* ca
 
 void sb::AnalyzerCasesBased::release()
 {
-	if( _caseRepository != nullptr ) {
+	if ( _caseRepository != nullptr ) {
 		_caseRepository->release();
 		delete _caseRepository;
 		_caseRepository = nullptr;
+	}
+
+	if ( _params != nullptr ) {
+		delete _params;
 	}
 }

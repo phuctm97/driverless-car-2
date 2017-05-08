@@ -30,7 +30,7 @@ int main( const int argc, const char** argv )
 {
 	composeApplicationTestAnalyzer();
 
-	if( application == nullptr ) return -1;
+	if ( application == nullptr ) return -1;
 
 	application->addKeyboardCallback( &onKeyPressed );
 
@@ -59,9 +59,9 @@ void composeApplicationTestCalculator()
 	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-1.avi" );
 
 	calculator = new sb::CalculatorBlobsBased( new sb::CropTool( cv::Rect( 0, 332, 640, 100 ) ),
-																						 new sb::FlipTool(),
-																						 new sb::BinarizeTool( 200 ),
-																						 new sb::BlobTool( { 0.2,0.25,0.25,0.3 }, cv::Size( 640, 100 ) ) );
+	                                           new sb::FlipTool(),
+	                                           new sb::BinarizeTool( 200 ),
+	                                           new sb::BlobTool( { 0.2,0.25,0.25,0.3 }, cv::Size( 640, 100 ) ) );
 
 	application = new sb::ApplicationTestCalculator( collector, calculator, new sb::WindowsKeyboard( 33 ) );
 }
@@ -77,15 +77,22 @@ void composeApplicationTestAnalyzer()
 	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-1.avi" );
 
 	calculator = new sb::CalculatorBlobsBased( new sb::CropTool( cv::Rect( 0, 332, 640, 100 ) ),
-																						 new sb::FlipTool(),
-																						 new sb::BinarizeTool( 200 ),
-																						 new sb::BlobTool( { 0.2,0.25,0.25,0.3 }, cv::Size( 640, 100 ) ) );
+	                                           new sb::FlipTool(),
+	                                           new sb::BinarizeTool( 200 ),
+	                                           new sb::BlobTool( { 0.2,0.25,0.25,0.3 }, cv::Size( 640, 100 ) ) );
 
-	analyzer = new sb::AnalyzerCasesBased();
+	sb::AnalyzeParams* analyzeParams = new sb::AnalyzeParams();
+	analyzeParams->MIN_LANE_BLOB_SIZE = 2500;
+	analyzeParams->MIN_LANE_WIDTH_1 = 30;
+	analyzeParams->MAX_LANE_WIDTH_1 = 60;
+	analyzeParams->MIN_LANE_WIDTH_2 = 15;
+	analyzeParams->MAX_LANE_WIDTH_2 = 40;
+	analyzeParams->MAX_ROW_WIDTH_DIFF = 7;
+	analyzeParams->SECTION_HOPS_TO_LIVE = 4;
+	analyzer = new sb::AnalyzerCasesBased( analyzeParams );
 
 	application = new sb::ApplicationTestAnalyzer( collector, calculator, analyzer, new sb::WindowsKeyboard( 33 ) );
 }
-
 
 void releaseApplication()
 {
@@ -94,5 +101,5 @@ void releaseApplication()
 
 void onKeyPressed( int key )
 {
-	if( key == 27 ) application->exit();
+	if ( key == 27 ) application->exit();
 }

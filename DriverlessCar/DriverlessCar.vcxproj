@@ -148,6 +148,7 @@
     <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\LeftLaneSolidCase.h" />
     <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\RightLaneSolidCase.h" />
     <ClInclude Include="Analyzer\Data\AnalyzeData.h" />
+    <ClInclude Include="Analyzer\Data\Params\AnalyzeParams.h" />
     <ClInclude Include="Analyzer\IAnalyzer.h" />
     <ClInclude Include="Application\ApplicationFinal\ApplicationFinal.h" />
     <ClInclude Include="Application\ApplicationTestAnalyzer\ApplicationTestAnalyzer.h" />
