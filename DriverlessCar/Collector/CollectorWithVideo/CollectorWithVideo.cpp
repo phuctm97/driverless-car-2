@@ -3,6 +3,8 @@
 sb::CollectorWithVideo::CollectorWithVideo( const std::string& fileName )
 {
 	_stream.open( fileName );
+
+	std::cout << "CollectorWithVideo: video frame count: " << static_cast<int>(_stream.get( CV_CAP_PROP_FRAME_COUNT )) << std::endl;
 }
 
 int sb::CollectorWithVideo::init()

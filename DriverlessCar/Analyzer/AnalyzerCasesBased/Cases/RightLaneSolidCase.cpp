@@ -2,6 +2,20 @@
 #include "../CaseRepository.h"
 #include "BothLaneSolidCase.h"
 
+sb::AnalyzeParams* const& sb::RightLaneSolidCase::getParams() const { return _params; }
+
+const cv::Point& sb::RightLaneSolidCase::getRightLaneOrigin() const { return _rightLaneOrigin; }
+
+const int& sb::RightLaneSolidCase::getRightLaneSize() const { return _rightLaneSize; }
+
+const int& sb::RightLaneSolidCase::getRightLaneHeight() const { return _rightLaneHeight; }
+
+const std::vector<sb::BlobRow>& sb::RightLaneSolidCase::getRightRows() const { return _rightRows; }
+
+const std::vector<std::pair<int, int>>& sb::RightLaneSolidCase::getRightGoodSections() const { return _rightGoodSections; }
+
+const std::vector<std::pair<int, int>>& sb::RightLaneSolidCase::getRightBadSections() const { return _rightBadSections; }
+
 int sb::RightLaneSolidCase::getType()
 {
 	return CaseType::RIGHT_LANE_SOLID_CASE;
@@ -108,14 +122,6 @@ sb::Blob* sb::RightLaneSolidCase::trackRightBlob( CaseRepository* caseRepository
 {
 	for ( auto cit_blob = calculateData->blobs.cbegin(); cit_blob != calculateData->blobs.cend(); ++cit_blob ) {
 		Blob* blob = *cit_blob;
-
-		// debug
-		{
-			cv::Mat img = calculateData->bgrImage.clone();
-			cv::circle( img, blob->origin, 5, cv::Scalar( 0, 255, 0 ), -1 );
-			cv::imshow( "Analyzer", img );
-			cv::waitKey();
-		}
 
 		// check blob size
 		if ( blob->size < _params->MIN_LANE_BLOB_SIZE ) continue;

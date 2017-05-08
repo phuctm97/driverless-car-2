@@ -56,11 +56,11 @@ void composeApplicationTestCalculator()
 
 	sb::ICalculator* calculator = nullptr;
 
-	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-1.avi" );
+	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-3.avi" );
 
 	calculator = new sb::CalculatorBlobsBased( new sb::CropTool( cv::Rect( 0, 332, 640, 100 ) ),
 	                                           new sb::FlipTool(),
-	                                           new sb::BinarizeTool( 200 ),
+	                                           new sb::BinarizeTool( 190 ),
 	                                           new sb::BlobTool( { 0.2,0.25,0.25,0.3 }, cv::Size( 640, 100 ) ) );
 
 	application = new sb::ApplicationTestCalculator( collector, calculator, new sb::WindowsKeyboard( 33 ) );
@@ -74,19 +74,19 @@ void composeApplicationTestAnalyzer()
 
 	sb::IAnalyzer* analyzer = nullptr;
 
-	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-1.avi" );
+	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-3.avi" );
 
 	calculator = new sb::CalculatorBlobsBased( new sb::CropTool( cv::Rect( 0, 332, 640, 100 ) ),
 	                                           new sb::FlipTool(),
-	                                           new sb::BinarizeTool( 200 ),
+	                                           new sb::BinarizeTool( 190 ),
 	                                           new sb::BlobTool( { 0.2,0.25,0.25,0.3 }, cv::Size( 640, 100 ) ) );
 
 	sb::AnalyzeParams* analyzeParams = new sb::AnalyzeParams();
-	analyzeParams->MIN_LANE_BLOB_SIZE = 2500;
-	analyzeParams->MIN_LANE_WIDTH_1 = 30;
-	analyzeParams->MAX_LANE_WIDTH_1 = 60;
-	analyzeParams->MIN_LANE_WIDTH_2 = 15;
-	analyzeParams->MAX_LANE_WIDTH_2 = 40;
+	analyzeParams->MIN_LANE_BLOB_SIZE = 1500;
+	analyzeParams->MIN_LANE_WIDTH_1 = 20;
+	analyzeParams->MAX_LANE_WIDTH_1 = 40;
+	analyzeParams->MIN_LANE_WIDTH_2 = 25;
+	analyzeParams->MAX_LANE_WIDTH_2 = 10;
 	analyzeParams->MAX_ROW_WIDTH_DIFF = 7;
 	analyzeParams->SECTION_HOPS_TO_LIVE = 4;
 	analyzer = new sb::AnalyzerCasesBased( analyzeParams );

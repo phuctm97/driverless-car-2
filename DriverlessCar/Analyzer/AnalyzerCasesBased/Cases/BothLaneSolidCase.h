@@ -3,6 +3,8 @@
 
 #include "ICase.h"
 #include "../../Data/Params/AnalyzeParams.h"
+#include "RightLaneSolidCase.h"
+#include "LeftLaneSolidCase.h"
 
 namespace sb
 {
@@ -68,6 +70,10 @@ private:
 	Blob* trackLeftBlob( CaseRepository* caseRepository, CollectData* collectData, CalculateData* calculateData );
 
 	Blob* trackRightBlob( CaseRepository* caseRepository, CollectData* collectData, CalculateData* calculateData );
+
+	Blob* findLeftBlob( CaseRepository* caseRepository, CollectData* collectData, CalculateData* calculateData, RightLaneSolidCase* rightLaneSolidCase );
+
+	Blob* findRightBlob( CaseRepository* caseRepository, CollectData* collectData, CalculateData* calculateData, LeftLaneSolidCase* leftLaneSolidCase );
 };
 }
 

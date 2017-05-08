@@ -22,6 +22,20 @@ public:
 	// ReSharper restore CppPossiblyUninitializedMember
 		: _params( params ) { }
 
+	AnalyzeParams* const& getParams() const;
+
+	const cv::Point& getRightLaneOrigin() const;
+
+	const int& getRightLaneSize() const;
+
+	const int& getRightLaneHeight() const;
+
+	const std::vector<BlobRow>& getRightRows() const;
+
+	const std::vector<std::pair<int, int>>& getRightGoodSections() const;
+
+	const std::vector<std::pair<int, int>>& getRightBadSections() const;
+
 	int getType() override;
 
 	int analyze( CaseRepository* caseRepository, CollectData* collectData, CalculateData* calculateData, AnalyzeData* analyzeData ) override;
