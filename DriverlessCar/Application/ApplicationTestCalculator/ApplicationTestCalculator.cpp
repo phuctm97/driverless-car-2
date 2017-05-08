@@ -73,33 +73,30 @@ void sb::ApplicationTestCalculator::showResult( sb::CalculateData* calculateData
 
 	cv::imshow( "BIN image", calculateData->binImage );
 
-	cv::waitKey();
+	for( auto cit_blob = calculateData->blobs.cbegin(); cit_blob != calculateData->blobs.cend(); ++cit_blob ) {
+		cv::Mat img0 = calculateData->bgrImage.clone();
+		cv::Mat img1; cv::cvtColor( calculateData->binImage, img1, cv::COLOR_GRAY2BGR );
 
-	//for( auto cit_blob = calculateData->blobs.cbegin(); cit_blob != calculateData->blobs.cend(); ++cit_blob ) {
-	//	cv::Mat img0 = calculateData->bgrImage.clone();
-	//	cv::Mat img1; cv::cvtColor( calculateData->binImage, img1, cv::COLOR_GRAY2BGR );
+		sb::Blob* blob = *cit_blob;
+		for( auto cit_childblob = blob->childBlobs.cbegin(); cit_childblob != blob->childBlobs.cend(); ++cit_childblob ) {
+			sb::Blob* childBlob = *cit_childblob;
 
-	//	sb::Blob* blob = *cit_blob;
-	//	for( auto cit_childblob = blob->childBlobs.cbegin(); cit_childblob != blob->childBlobs.cend(); ++cit_childblob ) {
-	//		sb::Blob* childBlob = *cit_childblob;
+			if( childBlob->size == 0 ) continue;
 
-	//		if( childBlob->size == 0 ) continue;
+			cv::rectangle( img0, childBlob->box.tl(), childBlob->box.br(), cv::Scalar( 0, 0, 255 ), 1 );
+			cv::rectangle( img1, childBlob->box.tl(), childBlob->box.br(), cv::Scalar( 0, 0, 255 ), 1 );
+			cv::circle( img0, childBlob->origin, 3, cv::Scalar( 0, 255, 0 ), 2 );
+			cv::circle( img1, childBlob->origin, 3, cv::Scalar( 0, 255, 0 ), 2 );
+		}
 
-	//		cv::rectangle( img0, childBlob->box.tl(), childBlob->box.br(), cv::Scalar( 0, 0, 255 ), 1 );
-	//		cv::rectangle( img1, childBlob->box.tl(), childBlob->box.br(), cv::Scalar( 0, 0, 255 ), 1 );
-	//		cv::circle( img0, childBlob->origin, 3, cv::Scalar( 0, 255, 0 ), 2 );
-	//		cv::circle( img1, childBlob->origin, 3, cv::Scalar( 0, 255, 0 ), 2 );
-	//	}
-
-	//	cv::putText( img0, std::to_string( blob->size ), cv::Point( calculateData->bgrImage.cols / 2, 30 ),
-	//							 cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar( 0, 255, 255 ), 2 );
-	//	cv::putText( img1, std::to_string( blob->size ), cv::Point( calculateData->bgrImage.cols / 2, 30 ),
-	//							 cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar( 0, 255, 255 ), 2 );
-	//	cv::imshow( "BGR image", img0 );
-	//	cv::imshow( "BIN image", img1 );
-
-	//	cv::waitKey();
-	//}
+		cv::putText( img0, std::to_string( blob->size ), cv::Point( calculateData->bgrImage.cols / 2, 30 ),
+								 cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar( 0, 255, 255 ), 2 );
+		cv::putText( img1, std::to_string( blob->size ), cv::Point( calculateData->bgrImage.cols / 2, 30 ),
+								 cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar( 0, 255, 255 ), 2 );
+		cv::imshow( "BGR image", img0 );
+		cv::imshow( "BIN image", img1 );
+		cv::waitKey();
+	}
 
 	for( auto cit_blob = calculateData->blobs.cbegin(); cit_blob != calculateData->blobs.cend(); ++cit_blob ) {
 

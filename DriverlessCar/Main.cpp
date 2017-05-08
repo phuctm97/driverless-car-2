@@ -61,11 +61,11 @@ void composeApplicationTestCalculator()
 
 	sb::ICalculator* calculator = nullptr;
 
-	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-3.avi" ); // [on Car] replace with CollectorWithCamera
+	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-1.avi" ); // [on Car] replace with CollectorWithCamera
 
 	calculator = new sb::CalculatorBlobsBased( new sb::CropTool( cv::Rect( 0, 332, 640, 100 ) ),
 	                                           new sb::FlipTool(),
-	                                           new sb::BinarizeTool( 190 ),
+	                                           new sb::BinarizeTool( 200 ),
 	                                           new sb::BlobTool( { 0.2,0.25,0.25,0.3 }, cv::Size( 640, 100 ) ) );
 
 	application = new sb::ApplicationTestCalculator( collector, calculator, new sb::WindowsKeyboard( 33 ) ); // [on Car] replace with LinuxKeyboard
@@ -79,7 +79,7 @@ void composeApplicationTestAnalyzer()
 
 	sb::IAnalyzer* analyzer = nullptr;
 
-	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-3.avi" ); // [on Car] replace with CollectorWithCamera
+	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-1.avi" ); // [on Car] replace with CollectorWithCamera
 
 	calculator = new sb::CalculatorBlobsBased( new sb::CropTool( cv::Rect( 0, 332, 640, 100 ) ),
 	                                           new sb::FlipTool(),
@@ -87,17 +87,17 @@ void composeApplicationTestAnalyzer()
 	                                           new sb::BlobTool( { 0.2,0.25,0.25,0.3 }, cv::Size( 640, 100 ) ) );
 
 	sb::AnalyzeParams* analyzeParams = new sb::AnalyzeParams(); {
-		analyzeParams->MIN_LANE_BLOB_SIZE = 1500;
+		analyzeParams->MIN_LANE_BLOB_SIZE = 2500;
 		analyzeParams->MIN_LANE_BLOB_HEIGHT = 75;
-		analyzeParams->MIN_LANE_WIDTH_1 = 20;
-		analyzeParams->MAX_LANE_WIDTH_1 = 40;
-		analyzeParams->MIN_LANE_WIDTH_2 = 25;
-		analyzeParams->MAX_LANE_WIDTH_2 = 10;
+		analyzeParams->MIN_LANE_WIDTH_1 = 30;
+		analyzeParams->MAX_LANE_WIDTH_1 = 60;
+		analyzeParams->MIN_LANE_WIDTH_2 = 40;
+		analyzeParams->MAX_LANE_WIDTH_2 = 20;
 		analyzeParams->MAX_ROW_WIDTH_DIFF = 7;
 		analyzeParams->SECTION_HOPS_TO_LIVE = 4;
-		analyzeParams->MAX_LANE_POSITION_DIFF = 30;
-		analyzeParams->MAX_LANE_SIZE_DIFF = 500;
-		analyzeParams->MAX_LANE_HEIGHT_DIFF = 20;
+		analyzeParams->MAX_LANE_POSITION_DIFF = 100;
+		analyzeParams->MAX_LANE_SIZE_DIFF = 700;
+		analyzeParams->MAX_LANE_HEIGHT_DIFF = 30;
 	}
 	analyzer = new sb::AnalyzerCasesBased( analyzeParams );
 
@@ -114,25 +114,25 @@ void composeApplicationFinal()
 
 	sb::IDriver* driver = nullptr;
 
-	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-3.avi" ); // [on Car] replace with CameraWithCamera
+	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-1.avi" ); // [on Car] replace with CameraWithCamera
 
 	calculator = new sb::CalculatorBlobsBased( new sb::CropTool( cv::Rect( 0, 332, 640, 100 ) ),
 	                                           new sb::FlipTool(),
-	                                           new sb::BinarizeTool( 190 ),
+	                                           new sb::BinarizeTool( 200 ),
 	                                           new sb::BlobTool( { 0.2,0.25,0.25,0.3 }, cv::Size( 640, 100 ) ) );
 
 	sb::AnalyzeParams* analyzeParams = new sb::AnalyzeParams(); {
-		analyzeParams->MIN_LANE_BLOB_SIZE = 1500;
+		analyzeParams->MIN_LANE_BLOB_SIZE = 2500;
 		analyzeParams->MIN_LANE_BLOB_HEIGHT = 75;
-		analyzeParams->MIN_LANE_WIDTH_1 = 20;
-		analyzeParams->MAX_LANE_WIDTH_1 = 40;
-		analyzeParams->MIN_LANE_WIDTH_2 = 25;
-		analyzeParams->MAX_LANE_WIDTH_2 = 10;
+		analyzeParams->MIN_LANE_WIDTH_1 = 30;
+		analyzeParams->MAX_LANE_WIDTH_1 = 60;
+		analyzeParams->MIN_LANE_WIDTH_2 = 40;
+		analyzeParams->MAX_LANE_WIDTH_2 = 20;
 		analyzeParams->MAX_ROW_WIDTH_DIFF = 7;
 		analyzeParams->SECTION_HOPS_TO_LIVE = 4;
-		analyzeParams->MAX_LANE_POSITION_DIFF = 30;
-		analyzeParams->MAX_LANE_SIZE_DIFF = 500;
-		analyzeParams->MAX_LANE_HEIGHT_DIFF = 20;
+		analyzeParams->MAX_LANE_POSITION_DIFF = 100;
+		analyzeParams->MAX_LANE_SIZE_DIFF = 700;
+		analyzeParams->MAX_LANE_HEIGHT_DIFF = 30;
 	}
 	analyzer = new sb::AnalyzerCasesBased( analyzeParams );
 
