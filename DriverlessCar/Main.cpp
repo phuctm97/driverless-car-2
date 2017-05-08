@@ -1,5 +1,5 @@
 #include "Collector/ICollector.h"
-#include "Collector/CollectorWithVideo/CollectorWithVideo.h"
+#include "Collector/CollectorWithVideo/CollectorWithVideo.h" // [on Car] replace with CollectorWithCamera
 #include "Calculator/ICalculator.h"
 #include "Calculator/CalculatorBlobsBased/CalculatorBlobsBased.h"
 #include "Calculator/CropTool.h"
@@ -8,11 +8,14 @@
 #include "Calculator/BlobTool.h"
 #include "Analyzer/IAnalyzer.h"
 #include "Analyzer/AnalyzerCasesBased/AnalyzerCasesBased.h"
+#include "Driver/IDriver.h"
+#include "Driver/DriverStupid/DriverStupid.h"	// [on Car] replace with DriverPid
+#include "Application/Keyboard/WindowsKeyboard.h" // [on Car] replace with LinuxKeyboard
 #include "Application/IApplication.h"
-#include "Application/Keyboard/WindowsKeyboard.h"
 #include "Application/ApplicationTestCollector/ApplicationTestCollector.h"
 #include "Application/ApplicationTestCalculator/ApplicationTestCalculator.h"
 #include "Application/ApplicationTestAnalyzer/ApplicationTestAnalyzer.h"
+#include "Application/ApplicationFinal/ApplicationFinal.h"
 
 sb::IApplication* application = nullptr;
 
@@ -21,6 +24,8 @@ void composeApplicationTestCollector();
 void composeApplicationTestCalculator();
 
 void composeApplicationTestAnalyzer();
+
+void composeApplicationFinal();
 
 void releaseApplication();
 
@@ -45,9 +50,9 @@ void composeApplicationTestCollector()
 {
 	sb::ICollector* collector = nullptr;
 
-	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-1.avi" );
+	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-1.avi" ); // [on Car] replace with CollectorWithCamera
 
-	application = new sb::ApplicationTestCollector( collector, new sb::WindowsKeyboard( 33 ) );
+	application = new sb::ApplicationTestCollector( collector, new sb::WindowsKeyboard( 33 ) ); // [on Car] replace with LinuxKeyboard
 }
 
 void composeApplicationTestCalculator()
@@ -56,14 +61,14 @@ void composeApplicationTestCalculator()
 
 	sb::ICalculator* calculator = nullptr;
 
-	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-3.avi" );
+	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-3.avi" ); // [on Car] replace with CollectorWithCamera
 
 	calculator = new sb::CalculatorBlobsBased( new sb::CropTool( cv::Rect( 0, 332, 640, 100 ) ),
 	                                           new sb::FlipTool(),
 	                                           new sb::BinarizeTool( 190 ),
 	                                           new sb::BlobTool( { 0.2,0.25,0.25,0.3 }, cv::Size( 640, 100 ) ) );
 
-	application = new sb::ApplicationTestCalculator( collector, calculator, new sb::WindowsKeyboard( 33 ) );
+	application = new sb::ApplicationTestCalculator( collector, calculator, new sb::WindowsKeyboard( 33 ) ); // [on Car] replace with LinuxKeyboard
 }
 
 void composeApplicationTestAnalyzer()
@@ -74,7 +79,7 @@ void composeApplicationTestAnalyzer()
 
 	sb::IAnalyzer* analyzer = nullptr;
 
-	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-3.avi" );
+	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-3.avi" ); // [on Car] replace with CollectorWithCamera
 
 	calculator = new sb::CalculatorBlobsBased( new sb::CropTool( cv::Rect( 0, 332, 640, 100 ) ),
 	                                           new sb::FlipTool(),
@@ -91,7 +96,40 @@ void composeApplicationTestAnalyzer()
 	analyzeParams->SECTION_HOPS_TO_LIVE = 4;
 	analyzer = new sb::AnalyzerCasesBased( analyzeParams );
 
-	application = new sb::ApplicationTestAnalyzer( collector, calculator, analyzer, new sb::WindowsKeyboard( 33 ) );
+	application = new sb::ApplicationTestAnalyzer( collector, calculator, analyzer, new sb::WindowsKeyboard( 33 ) ); // [on Car] replace with LinuxKeyboard
+}
+
+void composeApplicationFinal()
+{
+	sb::ICollector* collector = nullptr;
+
+	sb::ICalculator* calculator = nullptr;
+
+	sb::IAnalyzer* analyzer = nullptr;
+
+	sb::IDriver* driver = nullptr;
+
+	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-3.avi" ); // [on Car] replace with CameraWithCamera
+
+	calculator = new sb::CalculatorBlobsBased( new sb::CropTool( cv::Rect( 0, 332, 640, 100 ) ),
+	                                           new sb::FlipTool(),
+	                                           new sb::BinarizeTool( 190 ),
+	                                           new sb::BlobTool( { 0.2,0.25,0.25,0.3 }, cv::Size( 640, 100 ) ) );
+
+	sb::AnalyzeParams* analyzeParams = new sb::AnalyzeParams(); {
+		analyzeParams->MIN_LANE_BLOB_SIZE = 1500;
+		analyzeParams->MIN_LANE_WIDTH_1 = 20;
+		analyzeParams->MAX_LANE_WIDTH_1 = 40;
+		analyzeParams->MIN_LANE_WIDTH_2 = 25;
+		analyzeParams->MAX_LANE_WIDTH_2 = 10;
+		analyzeParams->MAX_ROW_WIDTH_DIFF = 7;
+		analyzeParams->SECTION_HOPS_TO_LIVE = 4;
+	}
+	analyzer = new sb::AnalyzerCasesBased( analyzeParams );
+
+	driver = new sb::DriverStupid(); // [on Car] replace with DriverPid
+
+	application = new sb::ApplicationFinal( collector, calculator, analyzer, driver, new sb::WindowsKeyboard( 33 ) ); // [on Car] replace with LinuxKeyboard
 }
 
 void releaseApplication()

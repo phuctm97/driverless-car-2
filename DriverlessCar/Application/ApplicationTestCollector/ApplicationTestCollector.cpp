@@ -9,11 +9,21 @@ void sb::ApplicationTestCollector::run()
 
 	if ( _collector == nullptr || _collector->init() < 0 ) _exiting = true;
 
+	// video writer
+	cv::VideoWriter originalAvi;
+	if ( !_videoPath.empty() ) {
+		originalAvi.open( _videoPath + "-org.avi", CV_FOURCC( 'X', 'V', 'I', 'D' ), 30, cv::Size( 640, 480 ) );
+	}
+
 	// run
 	while ( !_exiting ) {
 		if ( _collector->collect( collectData ) < 0 ) break;
 
-		cv::imshow( "TestCollector", collectData->colorImage );
+		cv::imshow( "Collector", collectData->colorImage );
+
+		if ( originalAvi.isOpened() ) {
+			originalAvi << collectData->colorImage;
+		}
 
 		// keyboard event
 		if ( _keyboard != nullptr ) {
@@ -26,6 +36,8 @@ void sb::ApplicationTestCollector::run()
 		sb::release( collectData );
 		delete collectData;
 	}
+
+	originalAvi.release();
 }
 
 void sb::ApplicationTestCollector::exit()
@@ -49,5 +61,4 @@ void sb::ApplicationTestCollector::release()
 void sb::ApplicationTestCollector::addKeyboardCallback( const std::function<void( int )>& callback )
 {
 	if ( _keyboard != nullptr ) _keyboard->addKeyboardCallback( callback );
-
 }

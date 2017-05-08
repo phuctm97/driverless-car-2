@@ -23,9 +23,11 @@ private:
 
 	bool _exiting;
 
+	cv::String _videoPath;
+
 public:
-	ApplicationFinal( ICollector* collector, ICalculator* calculator, IAnalyzer* analyzer, IDriver* driver, IKeyboard* keyboard )
-		: _exiting( false ), _collector( collector ), _calculator( calculator ), _analyzer( analyzer ), _driver( driver ), _keyboard( keyboard ) {}
+	ApplicationFinal( ICollector* collector, ICalculator* calculator, IAnalyzer* analyzer, IDriver* driver, IKeyboard* keyboard, const cv::String& videoPath = "" )
+		: _exiting( false ), _collector( collector ), _calculator( calculator ), _analyzer( analyzer ), _driver( driver ), _keyboard( keyboard ), _videoPath( videoPath ) {}
 
 	void run() override;
 

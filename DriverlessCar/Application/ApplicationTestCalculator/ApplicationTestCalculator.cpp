@@ -73,6 +73,8 @@ void sb::ApplicationTestCalculator::showResult( sb::CalculateData* calculateData
 
 	cv::imshow( "BIN image", calculateData->binImage );
 
+	cv::waitKey();
+
 	//for( auto cit_blob = calculateData->blobs.cbegin(); cit_blob != calculateData->blobs.cend(); ++cit_blob ) {
 	//	cv::Mat img0 = calculateData->bgrImage.clone();
 	//	cv::Mat img1; cv::cvtColor( calculateData->binImage, img1, cv::COLOR_GRAY2BGR );

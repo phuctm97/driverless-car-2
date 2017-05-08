@@ -6,12 +6,17 @@ namespace sb
 struct AnalyzeParams
 {
 	int MIN_LANE_BLOB_SIZE;
+	int MIN_LANE_BLOB_HEIGHT;
 	int MIN_LANE_WIDTH_1;
 	int MAX_LANE_WIDTH_1;
 	int MIN_LANE_WIDTH_2;
 	int MAX_LANE_WIDTH_2;
 	int MAX_ROW_WIDTH_DIFF;
 	int SECTION_HOPS_TO_LIVE;
+
+	int MAX_LANE_POSITION_DIFF;
+	int MAX_LANE_SIZE_DIFF;
+	int MAX_LANE_HEIGHT_DIFF;
 };
 }
 

@@ -16,6 +16,7 @@ sb::ICase* sb::CaseRepository::last() const
 void sb::CaseRepository::push( ICase* newCase )
 {
 	if( _cases.size() == _capacity ) {
+		delete _cases.back();
 		_cases.pop_back();
 	}
 

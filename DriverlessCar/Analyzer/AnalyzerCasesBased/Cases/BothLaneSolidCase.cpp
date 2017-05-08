@@ -58,7 +58,7 @@ int sb::BothLaneSolidCase::firstAnalyze( CaseRepository* caseRepository, Collect
 	}
 
 	// check for height
-	if ( leftBlob->box.height < calculateData->bgrImage.rows * 3 / 4 || rightBlob->box.height < calculateData->bgrImage.rows * 3 / 4 ) {
+	if ( leftBlob->box.height < _params->MIN_LANE_BLOB_HEIGHT || rightBlob->box.height < _params->MIN_LANE_BLOB_HEIGHT ) {
 		std::cerr << "BothLaneSolidCase: init lane size too short" << std::endl;
 		return -1;
 	}
@@ -377,10 +377,123 @@ int sb::BothLaneSolidCase::onRedirect( CaseRepository* caseRepository, CollectDa
 	case CaseType::LEFT_LANE_SOLID_CASE: {
 		LeftLaneSolidCase* leftLaneSolidCase = static_cast<LeftLaneSolidCase*>(sender);
 
+		// store analyze data
+		auto caseToSave = new BothLaneSolidCase( _params );
+		caseToSave->_leftLaneOrigin = leftLaneSolidCase->getLeftLaneOrigin();
+		caseToSave->_leftLaneSize = leftLaneSolidCase->getLeftLaneSize();
+		caseToSave->_leftLaneHeight = leftLaneSolidCase->getLeftLaneHeight();
+		caseToSave->_leftBadSections = leftLaneSolidCase->getLeftBadSections();
+		caseToSave->_leftGoodSections = leftLaneSolidCase->getLeftGoodSections();
+		caseToSave->_leftRows = leftLaneSolidCase->getLeftRows();
+
+		// find left lane
+		Blob* rightBlob = nullptr;
+		rightBlob = findRightBlob( caseRepository, collectData, calculateData, leftLaneSolidCase );
+
+		// check for left row lane width
+		if ( rightBlob != nullptr ) {
+			caseToSave->_rightLaneOrigin = rightBlob->origin;
+			caseToSave->_rightLaneSize = static_cast<int>(rightBlob->size);
+			caseToSave->_rightLaneHeight = rightBlob->box.height;
+			caseToSave->_rightGoodSections.clear();
+			caseToSave->_rightBadSections.clear(); {
+				auto it_row = rightBlob->rows.begin();
+				while ( it_row != rightBlob->rows.end() ) {
+					auto pre_row = it_row;
+
+					if ( (it_row->row >= calculateData->bgrImage.rows / 2 && (it_row->width < _params->MIN_LANE_WIDTH_1 || it_row->width > _params->MAX_LANE_WIDTH_1))
+						|| (it_row->row < calculateData->bgrImage.rows / 2 && (it_row->width < _params->MIN_LANE_WIDTH_2 || it_row->width > _params->MAX_LANE_WIDTH_2)) ) {
+						beginBadSection( it_row, rightBlob, calculateData );
+						caseToSave->_rightBadSections.push_back( std::make_pair( static_cast<int>(std::distance( rightBlob->rows.begin(), pre_row )), static_cast<int>(std::distance( pre_row, it_row )) ) );
+					}
+					else {
+						beginCorrectSection( it_row, rightBlob, calculateData );
+						caseToSave->_rightGoodSections.push_back( std::make_pair( static_cast<int>(std::distance( rightBlob->rows.begin(), pre_row )), static_cast<int>(std::distance( pre_row, it_row )) ) );
+					}
+				}
+			}
+			caseToSave->_rightRows = rightBlob->rows;
+		}
+
+		// redirect LEFT_LANE_SOLID
+		if ( rightBlob == nullptr ) {
+			auto newLeftLaneSolidCase = new LeftLaneSolidCase( _params );
+			int res = leftLaneSolidCase->onRedirect( caseRepository, collectData, calculateData, analyzeData, caseToSave );
+			delete leftLaneSolidCase;
+			delete caseToSave;
+			return res;
+		}
+
+		// push to repository
+		caseRepository->push( caseToSave );
+
+		// check good section percentage
+		float leftGoodRatio = 0;
+		float rightGoodRatio = 0; {
+			int sum;
+
+			sum = 0;
+			for ( auto sectionInfo : caseToSave->_leftGoodSections ) sum += sectionInfo.second;
+			leftGoodRatio = 1.0f * sum / calculateData->bgrImage.rows;
+
+			sum = 0;
+			for ( auto sectionInfo : caseToSave->_rightGoodSections ) sum += sectionInfo.second;
+			rightGoodRatio = 1.0f * sum / calculateData->bgrImage.rows;
+		}
+
+		if ( leftGoodRatio < 0.5f && rightGoodRatio < 0.5f ) {
+			std::cerr << "BothLaneSolidCase: bad lanes" << std::endl;
+			return -1; // TODO: dashed lane
+		}
+
+		// calculate target base on left lane
+		if ( rightGoodRatio < 0.5f ) {
+			auto cit_lrow = caseToSave->_leftRows.crbegin();
+
+			for ( ; cit_lrow != caseToSave->_leftRows.crend(); ++cit_lrow ) {
+				if ( cit_lrow->tag != 0 ) continue;
+
+				auto roadWidth = caseRepository->findRoadWidth( cit_lrow->row );
+				if ( roadWidth < 0 ) continue;
+
+				int xl = cit_lrow->maxX;
+				analyzeData->target = cv::Point( xl + roadWidth / 2, cit_lrow->row );
+				break;
+			}
+		}
+		// calculate target base on left lane
+		else if ( leftGoodRatio < 0.5f ) {
+			auto cit_rrow = caseToSave->_rightRows.crbegin();
+
+			for ( ; cit_rrow != caseToSave->_rightRows.crend(); ++cit_rrow ) {
+				if ( cit_rrow->tag != 0 ) continue;
+
+				auto roadWidth = caseRepository->findRoadWidth( cit_rrow->row );
+				if ( roadWidth < 0 ) continue;
+
+				int xr = cit_rrow->minX;
+				analyzeData->target = cv::Point( xr - roadWidth / 2, cit_rrow->row );
+				break;
+			}
+		}
+		// calculate target with both lanes
+		else {
+			auto cit_lrow = caseToSave->_leftRows.crbegin();
+			auto cit_rrow = caseToSave->_rightRows.crbegin();
+
+			for ( ; cit_lrow != caseToSave->_leftRows.crend() && cit_rrow != caseToSave->_rightRows.crend(); ++cit_lrow , ++cit_rrow ) {
+				if ( cit_lrow->tag != 0 || cit_rrow->tag != 0 ) continue;
+
+				int x1 = cit_lrow->maxX;
+				int x2 = cit_rrow->minX;
+				analyzeData->target = cv::Point( (x1 + x2) / 2, cit_lrow->row );
+				break;
+			}
+		}
 	}
 		break;
 
-	case CaseType::RIGHT_LANE_SOLID_CASE: { }
+	case CaseType::RIGHT_LANE_SOLID_CASE: {
 		RightLaneSolidCase* rightLaneSolidCase = static_cast<RightLaneSolidCase*>(sender);
 
 		// store analyze data
@@ -497,6 +610,7 @@ int sb::BothLaneSolidCase::onRedirect( CaseRepository* caseRepository, CollectDa
 			}
 		}
 
+	}
 		break;
 	}
 
@@ -599,16 +713,16 @@ sb::Blob* sb::BothLaneSolidCase::trackLeftBlob( CaseRepository* caseRepository, 
 		if ( blob->size < _params->MIN_LANE_BLOB_SIZE ) continue;
 
 		// check blob height
-		if ( blob->box.height < calculateData->bgrImage.rows * 3 / 4 ) continue;
+		if ( blob->box.height < _params->MIN_LANE_BLOB_HEIGHT ) continue;
 
 		// compare position
-		if ( abs( blob->origin.x - _leftLaneOrigin.x ) > 100 ) continue;
+		if ( abs( blob->origin.x - _leftLaneOrigin.x ) > _params->MAX_LANE_POSITION_DIFF ) continue;
 
 		// compare size
-		if ( abs( static_cast<int>(blob->size) - _leftLaneSize ) > 700 ) continue;
+		if ( abs( static_cast<int>(blob->size) - _leftLaneSize ) > _params->MAX_LANE_SIZE_DIFF ) continue;
 
 		// compare height
-		if ( abs( blob->box.height - _leftLaneHeight ) > 10 ) continue;
+		if ( abs( blob->box.height - _leftLaneHeight ) > _params->MAX_LANE_HEIGHT_DIFF ) continue;
 
 		// TODO: compare shape (row width, angle)
 
@@ -629,16 +743,16 @@ sb::Blob* sb::BothLaneSolidCase::trackRightBlob( CaseRepository* caseRepository,
 		if ( blob->size < _params->MIN_LANE_BLOB_SIZE ) continue;
 
 		// check blob height
-		if ( blob->box.height < calculateData->bgrImage.rows * 3 / 4 ) continue;
+		if ( blob->box.height < _params->MIN_LANE_BLOB_HEIGHT ) continue;
 
 		// compare position
-		if ( abs( blob->origin.x - _rightLaneOrigin.x ) > 100 ) continue;
+		if ( abs( blob->origin.x - _rightLaneOrigin.x ) > _params->MAX_LANE_POSITION_DIFF ) continue;
 
 		// compare size
-		if ( abs( static_cast<int>(blob->size) - _rightLaneSize ) > 700 ) continue;
+		if ( abs( static_cast<int>(blob->size) - _rightLaneSize ) > _params->MAX_LANE_SIZE_DIFF ) continue;
 
 		// compare height
-		if ( abs( blob->box.height - _rightLaneHeight ) > 10 ) continue;
+		if ( abs( blob->box.height - _rightLaneHeight ) > _params->MAX_LANE_HEIGHT_DIFF ) continue;
 
 		// TODO: compare shape (row width, angle)
 
@@ -659,7 +773,7 @@ sb::Blob* sb::BothLaneSolidCase::findLeftBlob( CaseRepository* caseRepository, C
 		if ( blob->size < _params->MIN_LANE_BLOB_SIZE ) continue;
 
 		// check blob height
-		if ( blob->box.height < calculateData->bgrImage.rows * 3 / 4 ) continue;
+		if ( blob->box.height < _params->MIN_LANE_BLOB_HEIGHT ) continue;
 
 		if ( blob->origin.x > rightLaneSolidCase->getRightLaneOrigin().x - 50 ) continue;
 
@@ -679,7 +793,7 @@ sb::Blob* sb::BothLaneSolidCase::findRightBlob( CaseRepository* caseRepository, 
 		if ( blob->size < _params->MIN_LANE_BLOB_SIZE ) continue;
 
 		// check blob height
-		if ( blob->box.height < calculateData->bgrImage.rows * 3 / 4 ) continue;
+		if ( blob->box.height < _params->MIN_LANE_BLOB_HEIGHT ) continue;
 
 		if ( blob->origin.x < leftLaneSolidCase->getLeftLaneOrigin().x + 50 ) continue;
 

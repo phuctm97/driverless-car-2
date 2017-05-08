@@ -13,9 +13,12 @@ private:
 	ICollector* _collector;
 
 	bool _exiting;
+
+	cv::String _videoPath;
+
 public:
-	ApplicationTestCollector( ICollector* collector, IKeyboard* keyboard )
-		: _exiting( false ), _collector( collector ), _keyboard( keyboard ) {}
+	ApplicationTestCollector( ICollector* collector, IKeyboard* keyboard, const cv::String& videoPath = "" )
+		: _exiting( false ), _collector( collector ), _keyboard( keyboard ), _videoPath( videoPath ) {}
 
 	void run() override;
 

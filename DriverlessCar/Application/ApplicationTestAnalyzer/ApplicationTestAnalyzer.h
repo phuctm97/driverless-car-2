@@ -32,8 +32,6 @@ public:
 
 	void addKeyboardCallback( const std::function<void(int)>& callback ) override;
 
-private:
-	void showResult();
 };
 }
 

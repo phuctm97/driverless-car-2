@@ -13,24 +13,28 @@ void sb::ApplicationTestAnalyzer::run()
 	if ( _calculator == nullptr || _calculator->init() < 0 ) _exiting = true;
 	if ( _analyzer == nullptr || _analyzer->init() < 0 ) _exiting = true;
 
-	cv::Mat debugImage;
+	// debug
+	cv::Mat videoFrame;
 	int frameCount = 0;
 
 	// run
 	while ( !_exiting ) {
-		std::cout << frameCount++ << std::endl;
+		
 
 		if ( _collector->collect( collectData ) < 0 ) break;
-		debugImage = collectData->colorImage.clone();
+		
+		// debug
+		std::cout << frameCount++ << std::endl;
+		videoFrame = collectData->colorImage.clone();
 
 		if ( _calculator->calculate( collectData, calculateData ) < 0 ) break;
 		if ( _analyzer->analyze( collectData, calculateData, analyzeData ) < 0 ) break;
 
-		// test
+		// debug
 		{
-			cv::flip( debugImage, debugImage, 1 );
-			cv::circle( debugImage, analyzeData->target + cv::Point( 0, 332 ), 5, cv::Scalar( 0, 255, 0 ), 3 );
-			cv::imshow( "Analyzer", debugImage );
+			cv::flip( videoFrame, videoFrame, 1 );
+			cv::circle( videoFrame, analyzeData->target + cv::Point( 0, 332 ), 5, cv::Scalar( 0, 255, 0 ), 3 );
+			cv::imshow( "Analyzer", videoFrame );
 			cv::waitKey();
 		}
 
@@ -90,4 +94,3 @@ void sb::ApplicationTestAnalyzer::addKeyboardCallback( const std::function<void(
 	if ( _keyboard != nullptr ) _keyboard->addKeyboardCallback( callback );
 }
 
-void sb::ApplicationTestAnalyzer::showResult() {}
