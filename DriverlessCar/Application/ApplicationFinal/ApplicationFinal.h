@@ -25,9 +25,11 @@ private:
 
 	cv::String _videoPath;
 
+	cv::Point _cropOffset;
+
 public:
-	ApplicationFinal( ICollector* collector, ICalculator* calculator, IAnalyzer* analyzer, IDriver* driver, IKeyboard* keyboard, const cv::String& videoPath = "" )
-		: _exiting( false ), _collector( collector ), _calculator( calculator ), _analyzer( analyzer ), _driver( driver ), _keyboard( keyboard ), _videoPath( videoPath ) {}
+	ApplicationFinal( ICollector* collector, ICalculator* calculator, IAnalyzer* analyzer, IDriver* driver, IKeyboard* keyboard, const cv::String& videoPath = "", const cv::Point cropOffset = cv::Point( 0, 0 ) )
+		: _exiting( false ), _collector( collector ), _calculator( calculator ), _analyzer( analyzer ), _driver( driver ), _keyboard( keyboard ), _videoPath( videoPath ), _cropOffset( cropOffset ) {}
 
 	void run() override;
 

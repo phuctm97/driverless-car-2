@@ -418,8 +418,8 @@ int sb::BothLaneSolidCase::onRedirect( CaseRepository* caseRepository, CollectDa
 		// redirect LEFT_LANE_SOLID
 		if ( rightBlob == nullptr ) {
 			auto newLeftLaneSolidCase = new LeftLaneSolidCase( _params );
-			int res = leftLaneSolidCase->onRedirect( caseRepository, collectData, calculateData, analyzeData, caseToSave );
-			delete leftLaneSolidCase;
+			int res = newLeftLaneSolidCase->onRedirect( caseRepository, collectData, calculateData, analyzeData, caseToSave );
+			delete newLeftLaneSolidCase;
 			delete caseToSave;
 			return res;
 		}
@@ -537,8 +537,8 @@ int sb::BothLaneSolidCase::onRedirect( CaseRepository* caseRepository, CollectDa
 		// redirect RIGHT_LANE_SOLID
 		if ( leftBlob == nullptr ) {
 			auto newRightLaneSolidCase = new RightLaneSolidCase( _params );
-			int res = rightLaneSolidCase->onRedirect( caseRepository, collectData, calculateData, analyzeData, caseToSave );
-			delete rightLaneSolidCase;
+			int res = newRightLaneSolidCase->onRedirect( caseRepository, collectData, calculateData, analyzeData, caseToSave );
+			delete newRightLaneSolidCase;
 			delete caseToSave;
 			return res;
 		}

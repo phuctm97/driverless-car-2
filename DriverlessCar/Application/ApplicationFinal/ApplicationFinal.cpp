@@ -39,7 +39,7 @@ void sb::ApplicationFinal::run()
 		// video writer
 		if ( resultAvi.isOpened() ) {
 			cv::flip( videoFrame, videoFrame, 1 );
-			cv::circle( videoFrame, analyzeData->target, 5, cv::Scalar( 0, 0, 255 ), -1 );
+			cv::circle( videoFrame, analyzeData->target + _cropOffset, 10, cv::Scalar( 0, 0, 255 ), -1 );
 			resultAvi << videoFrame;
 		}
 	}

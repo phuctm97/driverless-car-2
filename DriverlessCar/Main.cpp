@@ -33,7 +33,7 @@ void onKeyPressed( int key );
 
 int main( const int argc, const char** argv )
 {
-	composeApplicationTestAnalyzer();
+	composeApplicationFinal();
 
 	if ( application == nullptr ) return -1;
 
@@ -86,14 +86,19 @@ void composeApplicationTestAnalyzer()
 	                                           new sb::BinarizeTool( 190 ),
 	                                           new sb::BlobTool( { 0.2,0.25,0.25,0.3 }, cv::Size( 640, 100 ) ) );
 
-	sb::AnalyzeParams* analyzeParams = new sb::AnalyzeParams();
-	analyzeParams->MIN_LANE_BLOB_SIZE = 1500;
-	analyzeParams->MIN_LANE_WIDTH_1 = 20;
-	analyzeParams->MAX_LANE_WIDTH_1 = 40;
-	analyzeParams->MIN_LANE_WIDTH_2 = 25;
-	analyzeParams->MAX_LANE_WIDTH_2 = 10;
-	analyzeParams->MAX_ROW_WIDTH_DIFF = 7;
-	analyzeParams->SECTION_HOPS_TO_LIVE = 4;
+	sb::AnalyzeParams* analyzeParams = new sb::AnalyzeParams(); {
+		analyzeParams->MIN_LANE_BLOB_SIZE = 1500;
+		analyzeParams->MIN_LANE_BLOB_HEIGHT = 75;
+		analyzeParams->MIN_LANE_WIDTH_1 = 20;
+		analyzeParams->MAX_LANE_WIDTH_1 = 40;
+		analyzeParams->MIN_LANE_WIDTH_2 = 25;
+		analyzeParams->MAX_LANE_WIDTH_2 = 10;
+		analyzeParams->MAX_ROW_WIDTH_DIFF = 7;
+		analyzeParams->SECTION_HOPS_TO_LIVE = 4;
+		analyzeParams->MAX_LANE_POSITION_DIFF = 30;
+		analyzeParams->MAX_LANE_SIZE_DIFF = 500;
+		analyzeParams->MAX_LANE_HEIGHT_DIFF = 20;
+	}
 	analyzer = new sb::AnalyzerCasesBased( analyzeParams );
 
 	application = new sb::ApplicationTestAnalyzer( collector, calculator, analyzer, new sb::WindowsKeyboard( 33 ) ); // [on Car] replace with LinuxKeyboard
@@ -118,18 +123,22 @@ void composeApplicationFinal()
 
 	sb::AnalyzeParams* analyzeParams = new sb::AnalyzeParams(); {
 		analyzeParams->MIN_LANE_BLOB_SIZE = 1500;
+		analyzeParams->MIN_LANE_BLOB_HEIGHT = 75;
 		analyzeParams->MIN_LANE_WIDTH_1 = 20;
 		analyzeParams->MAX_LANE_WIDTH_1 = 40;
 		analyzeParams->MIN_LANE_WIDTH_2 = 25;
 		analyzeParams->MAX_LANE_WIDTH_2 = 10;
 		analyzeParams->MAX_ROW_WIDTH_DIFF = 7;
 		analyzeParams->SECTION_HOPS_TO_LIVE = 4;
+		analyzeParams->MAX_LANE_POSITION_DIFF = 30;
+		analyzeParams->MAX_LANE_SIZE_DIFF = 500;
+		analyzeParams->MAX_LANE_HEIGHT_DIFF = 20;
 	}
 	analyzer = new sb::AnalyzerCasesBased( analyzeParams );
 
 	driver = new sb::DriverStupid(); // [on Car] replace with DriverPid
 
-	application = new sb::ApplicationFinal( collector, calculator, analyzer, driver, new sb::WindowsKeyboard( 33 ) ); // [on Car] replace with LinuxKeyboard
+	application = new sb::ApplicationFinal( collector, calculator, analyzer, driver, new sb::WindowsKeyboard( 33 ), "D:\\test", cv::Point( 0, 332 ) ); // [on Car] replace with LinuxKeyboard
 }
 
 void releaseApplication()

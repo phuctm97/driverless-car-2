@@ -69,7 +69,7 @@ int sb::RightLaneSolidCase::trackAnalyze( CaseRepository* caseRepository, Collec
 		int roadWidth = caseRepository->findRoadWidth( cit_row->row );
 		if ( roadWidth < 0 ) continue;
 
-		if ( cit_row->minX - roadWidth < -10 ) {
+		if ( cit_row->minX - roadWidth < -15 ) {
 			bothLaneSolidPossible = false;
 			break;
 		}
@@ -127,16 +127,16 @@ sb::Blob* sb::RightLaneSolidCase::trackRightBlob( CaseRepository* caseRepository
 		if ( blob->size < _params->MIN_LANE_BLOB_SIZE ) continue;
 
 		// check blob height
-		if ( blob->box.height < calculateData->bgrImage.rows * 3 / 4 ) continue;
+		if ( blob->box.height < _params->MIN_LANE_BLOB_HEIGHT ) continue;
 
 		// compare position
-		if ( abs( blob->origin.x - _rightLaneOrigin.x ) > 100 ) continue;
+		if ( abs( blob->origin.x - _rightLaneOrigin.x ) > _params->MAX_LANE_POSITION_DIFF ) continue;
 
 		// compare size
-		if ( abs( static_cast<int>(blob->size) - _rightLaneSize ) > 700 ) continue;
+		if ( abs( static_cast<int>(blob->size) - _rightLaneSize ) > _params->MAX_LANE_SIZE_DIFF ) continue;
 
 		// compare height
-		if ( abs( blob->box.height - _rightLaneHeight ) > 10 ) continue;
+		if ( abs( blob->box.height - _rightLaneHeight ) > _params->MAX_LANE_HEIGHT_DIFF ) continue;
 
 		// TODO: compare shape (row width, angle)
 
@@ -222,6 +222,9 @@ void sb::RightLaneSolidCase::beginBadSection( std::vector<BlobRow>::iterator& it
 				}
 			}
 		}
+		else {
+			correctRow = 0;
+		}
 		it_row->tag = -1;
 		++it_row;
 	}
@@ -233,6 +236,7 @@ void sb::RightLaneSolidCase::beginCorrectSection( std::vector<BlobRow>::iterator
 	int failTimes = 0;
 
 	while ( it_row != blob->rows.cend() ) {
+
 		if ( abs( it_row->width - rowToCompare->width ) < _params->MAX_ROW_WIDTH_DIFF ) {
 			it_row->tag = 0;
 			failTimes = 0;
