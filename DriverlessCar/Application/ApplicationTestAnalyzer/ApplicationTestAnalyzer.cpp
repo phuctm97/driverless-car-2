@@ -14,9 +14,12 @@ void sb::ApplicationTestAnalyzer::run()
 	if ( _analyzer == nullptr || _analyzer->init() < 0 ) _exiting = true;
 
 	cv::Mat debugImage;
+	int frameCount = 0;
 
 	// run
 	while ( !_exiting ) {
+		std::cout << frameCount++ << std::endl;
+
 		if ( _collector->collect( collectData ) < 0 ) break;
 		debugImage = collectData->colorImage.clone();
 
@@ -25,6 +28,7 @@ void sb::ApplicationTestAnalyzer::run()
 
 		// test
 		{
+			cv::flip( debugImage, debugImage, 1 );
 			cv::circle( debugImage, analyzeData->target + cv::Point( 0, 332 ), 5, cv::Scalar( 0, 255, 0 ), 3 );
 			cv::imshow( "Analyzer", debugImage );
 			cv::waitKey();

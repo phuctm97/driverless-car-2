@@ -45,7 +45,7 @@ void composeApplicationTestCollector()
 {
 	sb::ICollector* collector = nullptr;
 
-	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-3.avi" );
+	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-1.avi" );
 
 	application = new sb::ApplicationTestCollector( collector, new sb::WindowsKeyboard( 33 ) );
 }
@@ -56,11 +56,11 @@ void composeApplicationTestCalculator()
 
 	sb::ICalculator* calculator = nullptr;
 
-	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-3.avi" );
+	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-1.avi" );
 
 	calculator = new sb::CalculatorBlobsBased( new sb::CropTool( cv::Rect( 0, 332, 640, 100 ) ),
 																						 new sb::FlipTool(),
-																						 new sb::BinarizeTool( 190 ),
+																						 new sb::BinarizeTool( 200 ),
 																						 new sb::BlobTool( { 0.2,0.25,0.25,0.3 }, cv::Size( 640, 100 ) ) );
 
 	application = new sb::ApplicationTestCalculator( collector, calculator, new sb::WindowsKeyboard( 33 ) );
@@ -74,11 +74,11 @@ void composeApplicationTestAnalyzer()
 
 	sb::IAnalyzer* analyzer = nullptr;
 
-	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-3.avi" );
+	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-1.avi" );
 
 	calculator = new sb::CalculatorBlobsBased( new sb::CropTool( cv::Rect( 0, 332, 640, 100 ) ),
 																						 new sb::FlipTool(),
-																						 new sb::BinarizeTool( 190 ),
+																						 new sb::BinarizeTool( 200 ),
 																						 new sb::BlobTool( { 0.2,0.25,0.25,0.3 }, cv::Size( 640, 100 ) ) );
 
 	analyzer = new sb::AnalyzerCasesBased();

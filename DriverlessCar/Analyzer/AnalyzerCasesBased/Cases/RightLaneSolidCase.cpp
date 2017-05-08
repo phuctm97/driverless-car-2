@@ -9,3 +9,9 @@ int sb::RightLaneSolidCase::analyze( CaseRepository* caseRepository, CollectData
 {
 	return 0;
 }
+
+int sb::RightLaneSolidCase::onRedirect( CaseRepository* caseRepository, CollectData* collectData, CalculateData* calculateData, AnalyzeData* analyzeData, ICase* sender )
+{
+	
+	return 0;
+}

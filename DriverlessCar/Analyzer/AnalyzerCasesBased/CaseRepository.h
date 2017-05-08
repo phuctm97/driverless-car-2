@@ -30,6 +30,8 @@ public:
 
 	void mapRoadWidth( int row, int width );
 
+	int findRoadWidth( int row );
+
 	void release();
 };
 }

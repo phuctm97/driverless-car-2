@@ -34,6 +34,13 @@ void sb::CaseRepository::mapRoadWidth( int row, int width )
 	}
 }
 
+int sb::CaseRepository::findRoadWidth( int row )
+{
+	auto it = _rowToRoadWidthMap.find( row );
+	if( it == _rowToRoadWidthMap.end() ) return -1;
+	return it->second;
+}
+
 void sb::CaseRepository::release()
 {
 	for( ICase* caseToRelease : _cases ) {
