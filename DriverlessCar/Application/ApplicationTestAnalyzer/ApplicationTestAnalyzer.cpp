@@ -33,6 +33,7 @@ void sb::ApplicationTestAnalyzer::run()
 		// debug
 		{
 			cv::flip( videoFrame, videoFrame, 1 );
+			cv::rectangle( videoFrame, cv::Point( 0, 332 ), cv::Point( 0 + 640, 332 + 100 ), cv::Scalar( 0, 0, 255 ), 2 );
 			cv::circle( videoFrame, analyzeData->target + cv::Point( 0, 332 ), 5, cv::Scalar( 0, 255, 0 ), 3 );
 			cv::imshow( "Analyzer", videoFrame );
 			cv::waitKey();
