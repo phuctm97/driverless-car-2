@@ -52,6 +52,7 @@ void sb::ApplicationTestAnalyzer::run()
 			case CaseType::RIGHT_LANE_SOLID_CASE: state = "right lane solid"; break;
 			case CaseType::LEFT_LANE_SOLID_CASE: state = "left lane solid"; break;
 			case CaseType::BOTH_LANE_SOLID_CASE: state = "both lane solid"; break;
+			case CaseType::OBSTACLE_ON_LEFT_LANE_CASE: state = "obstacle left"; break;
 			}
 			cv::putText( videoFrame, state, cv::Point( 30, 30 ), cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar( 0, 0, 255 ), 2 );
 

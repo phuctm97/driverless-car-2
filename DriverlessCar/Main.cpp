@@ -33,7 +33,7 @@ void onKeyPressed( int key );
 
 int main( const int argc, const char** argv )
 {
-	composeApplicationTestAnalyzer();
+	composeApplicationTestCalculator();
 
 	if ( application == nullptr ) return -1;
 
@@ -63,11 +63,11 @@ void composeApplicationTestCalculator()
 
 	sb::ICalculator* calculator = nullptr;
 
-	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-10.avi" ); // [on Car] replace with CollectorWithCamera
+	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-9.avi" ); // [on Car] replace with CollectorWithCamera
 
 	calculator = new sb::CalculatorBlobsBased( new sb::CropTool( cv::Rect( 0, 332, 640, 100 ) ),
 	                                           new sb::FlipTool(),
-	                                           new sb::BinarizeTool( 200 ),
+	                                           new sb::BinarizeTool( 170 ),
 	                                           new sb::BlobTool( { 0.2,0.25,0.25,0.3 }, cv::Size( 640, 100 ) ) );
 
 	application = new sb::ApplicationTestCalculator( collector, calculator, new sb::WindowsKeyboard( 33 ) ); // [on Car] replace with LinuxKeyboard
@@ -81,7 +81,7 @@ void composeApplicationTestAnalyzer()
 
 	sb::IAnalyzer* analyzer = nullptr;
 
-	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-12.avi" ); // [on Car] replace with CollectorWithCamera
+	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-9.avi" ); // [on Car] replace with CollectorWithCamera
 
 	calculator = new sb::CalculatorBlobsBased( new sb::CropTool( cv::Rect( 0, 332, 640, 100 ) ),
 	                                           new sb::FlipTool(),
@@ -89,7 +89,7 @@ void composeApplicationTestAnalyzer()
 	                                           new sb::BlobTool( { 0.2,0.25,0.25,0.3 }, cv::Size( 640, 100 ) ) );
 
 	sb::AnalyzeParams* analyzeParams = new sb::AnalyzeParams(); {
-		analyzeParams->MIN_LANE_BLOB_SIZE = 1500;
+		analyzeParams->MIN_LANE_BLOB_SIZE = 1200;
 		analyzeParams->MIN_LANE_BLOB_HEIGHT = 50;
 		analyzeParams->MIN_LANE_BLOB_HEIGHT_TO_CHECK_OBSTACLE = 70;
 		analyzeParams->MIN_LANE_WIDTH_1 = 30;

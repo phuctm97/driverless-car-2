@@ -1,6 +1,7 @@
 #include "BothLaneSolidCase.h"
 #include "../CaseRepository.h"
 #include "ObstacleOnLeftLaneCase.h"
+#include "ObstacleOnRightLaneCase.h"
 
 const cv::Point& sb::BothLaneSolidCase::getLeftLaneOrigin() const { return _leftLaneOrigin; }
 
@@ -264,7 +265,7 @@ int sb::BothLaneSolidCase::trackAnalyze( CaseRepository* caseRepository, Collect
 	}
 
 	// check for obstacle on left lane, redirect OBSTACLE_ON_LEFT_LANE
-	/*if ( leftBlob != nullptr ) {
+	if ( leftBlob != nullptr ) {
 		if ( leftBlob->box.height < _params->MIN_LANE_BLOB_HEIGHT_TO_CHECK_OBSTACLE ) {
 			int center = (leftBlob->rows.back().minX + leftBlob->rows.back().maxX) / 2;
 			int bottom = leftBlob->rows.back().row;
@@ -282,10 +283,24 @@ int sb::BothLaneSolidCase::trackAnalyze( CaseRepository* caseRepository, Collect
 		}
 	}
 
-	// check for obstacle on right lane, redirect OBSTACLE_ON_RIGHT_LANE
-	if ( rightBlob != nullptr ) {
-		if ( rightBlob->box.height < _params->MIN_LANE_BLOB_HEIGHT_TO_CHECK_OBSTACLE ) { }
-	}*/
+	//// check for obstacle on right lane, redirect OBSTACLE_ON_RIGHT_LANE
+	if( rightBlob != nullptr ) {
+		if( rightBlob->box.height < _params->MIN_LANE_BLOB_HEIGHT_TO_CHECK_OBSTACLE ) {
+			int center = (rightBlob->rows.back().minX + rightBlob->rows.back().maxX) / 2;
+			int bottom = rightBlob->rows.back().row;
+
+			cv::Rect checkArea( MAX( 0, center - 100 + _params->CROP_OFFSET.x ), MAX( 0, bottom - 100 + _params->CROP_OFFSET.y ), 100, 100 );
+			cv::Mat checkImage = collectData->colorImage( checkArea );
+
+			if( _obstacleFinder->checkObstacle( checkImage ) >= 0 ) {
+				ObstacleOnRightLaneCase* obstacleOnRightLaneCase = new ObstacleOnRightLaneCase( _params, _obstacleFinder );
+				int res = obstacleOnRightLaneCase->onRedirect( caseRepository, collectData, calculateData, analyzeData, caseToSave );
+				delete obstacleOnRightLaneCase;
+				delete caseToSave;
+				return res;
+			}
+		}
+	}
 
 	// redirect RIGHT_LANE_SOLID
 	if ( leftBlob == nullptr ) {
