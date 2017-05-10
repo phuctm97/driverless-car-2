@@ -12,12 +12,21 @@ int sb::AnalyzerCasesBased::analyze( CollectData* collectData, CalculateData* ca
 	ICase* lastCase = nullptr;
 	if ( _caseRepository->empty() ) {
 		lastCase = new BothLaneSolidCase( _params );
+		analyzeData->state = -1;
 	}
 	else {
 		lastCase = _caseRepository->last();
 	}
 
-	return lastCase->analyze( _caseRepository, collectData, calculateData, analyzeData );
+	int res = lastCase->analyze( _caseRepository, collectData, calculateData, analyzeData );
+
+	if ( !_caseRepository->empty() ) {
+		analyzeData->state = _caseRepository->last()->getType();
+	}
+	else {
+		analyzeData->state = -2;
+	}
+	return res;
 }
 
 void sb::AnalyzerCasesBased::release()

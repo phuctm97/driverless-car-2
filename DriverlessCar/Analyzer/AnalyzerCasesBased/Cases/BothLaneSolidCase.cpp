@@ -318,13 +318,13 @@ int sb::BothLaneSolidCase::trackAnalyze( CaseRepository* caseRepository, Collect
 		rightGoodRatio = 1.0f * sum / calculateData->bgrImage.rows;
 	}
 
-	if ( leftGoodRatio < 0.5f && rightGoodRatio < 0.5f ) {
+	if ( leftGoodRatio < 0.3f && rightGoodRatio < 0.3f ) {
 		std::cerr << "BothLaneSolidCase: bad tracked lanes" << std::endl;
 		return -1; // TODO: dashed lane
 	}
 
 	// calculate target base on left lane
-	if ( rightGoodRatio < 0.5f ) {
+	if ( rightGoodRatio < 0.3f ) {
 		auto cit_lrow = caseToSave->_leftRows.crbegin();
 
 		for ( ; cit_lrow != caseToSave->_leftRows.crend(); ++cit_lrow ) {
@@ -339,7 +339,7 @@ int sb::BothLaneSolidCase::trackAnalyze( CaseRepository* caseRepository, Collect
 		}
 	}
 	// calculate target base on right lane
-	else if ( leftGoodRatio < 0.5f ) {
+	else if ( leftGoodRatio < 0.3f ) {
 		auto cit_rrow = caseToSave->_rightRows.crbegin();
 
 		for ( ; cit_rrow != caseToSave->_rightRows.crend(); ++cit_rrow ) {
@@ -441,13 +441,13 @@ int sb::BothLaneSolidCase::onRedirect( CaseRepository* caseRepository, CollectDa
 			rightGoodRatio = 1.0f * sum / calculateData->bgrImage.rows;
 		}
 
-		if ( leftGoodRatio < 0.5f && rightGoodRatio < 0.5f ) {
+		if ( leftGoodRatio < 0.3f && rightGoodRatio < 0.3f ) {
 			std::cerr << "BothLaneSolidCase: bad lanes" << std::endl;
 			return -1; // TODO: dashed lane
 		}
 
 		// calculate target base on left lane
-		if ( rightGoodRatio < 0.5f ) {
+		if ( rightGoodRatio < 0.3f ) {
 			auto cit_lrow = caseToSave->_leftRows.crbegin();
 
 			for ( ; cit_lrow != caseToSave->_leftRows.crend(); ++cit_lrow ) {
@@ -462,7 +462,7 @@ int sb::BothLaneSolidCase::onRedirect( CaseRepository* caseRepository, CollectDa
 			}
 		}
 		// calculate target base on left lane
-		else if ( leftGoodRatio < 0.5f ) {
+		else if ( leftGoodRatio < 0.3f ) {
 			auto cit_rrow = caseToSave->_rightRows.crbegin();
 
 			for ( ; cit_rrow != caseToSave->_rightRows.crend(); ++cit_rrow ) {
@@ -560,13 +560,13 @@ int sb::BothLaneSolidCase::onRedirect( CaseRepository* caseRepository, CollectDa
 			rightGoodRatio = 1.0f * sum / calculateData->bgrImage.rows;
 		}
 
-		if ( leftGoodRatio < 0.5f && rightGoodRatio < 0.5f ) {
+		if ( leftGoodRatio < 0.3f && rightGoodRatio < 0.3f ) {
 			std::cerr << "BothLaneSolidCase: bad lanes" << std::endl;
 			return -1; // TODO: dashed lane
 		}
 
 		// calculate target base on left lane
-		if ( rightGoodRatio < 0.5f ) {
+		if ( rightGoodRatio < 0.3f ) {
 			auto cit_lrow = caseToSave->_leftRows.crbegin();
 
 			for ( ; cit_lrow != caseToSave->_leftRows.crend(); ++cit_lrow ) {
@@ -581,7 +581,7 @@ int sb::BothLaneSolidCase::onRedirect( CaseRepository* caseRepository, CollectDa
 			}
 		}
 		// calculate target base on right lane
-		else if ( leftGoodRatio < 0.5f ) {
+		else if ( leftGoodRatio < 0.3f ) {
 			auto cit_rrow = caseToSave->_rightRows.crbegin();
 
 			for ( ; cit_rrow != caseToSave->_rightRows.crend(); ++cit_rrow ) {

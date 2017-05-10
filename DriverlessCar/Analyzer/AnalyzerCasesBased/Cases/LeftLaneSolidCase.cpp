@@ -69,7 +69,7 @@ int sb::LeftLaneSolidCase::trackAnalyze( CaseRepository* caseRepository, Collect
 		int roadWidth = caseRepository->findRoadWidth( cit_row->row );
 		if ( roadWidth < 0 ) continue;
 
-		if ( cit_row->maxX + roadWidth > calculateData->bgrImage.cols + 15 ) {
+		if ( cit_row->maxX + roadWidth > calculateData->bgrImage.cols + 10 ) {
 			bothLaneSolidPossible = false;
 			break;
 		}
@@ -96,7 +96,7 @@ int sb::LeftLaneSolidCase::trackAnalyze( CaseRepository* caseRepository, Collect
 		leftGoodRatio = 1.0f * sum / calculateData->bgrImage.rows;
 	}
 
-	if ( leftGoodRatio < 0.5f ) {
+	if ( leftGoodRatio < 0.3f ) {
 		std::cerr << "LeftLaneSolidCase: bad tracked lane" << std::endl;
 		return -1; // TODO: dashed lane
 	}
@@ -120,6 +120,8 @@ int sb::LeftLaneSolidCase::trackAnalyze( CaseRepository* caseRepository, Collect
 
 sb::Blob* sb::LeftLaneSolidCase::trackLeftBlob( CaseRepository* caseRepository, CollectData* collectData, CalculateData* calculateData )
 {
+	std::vector<std::pair<Blob*, float>> possibleBlobs;
+
 	for ( auto cit_blob = calculateData->blobs.cbegin(); cit_blob != calculateData->blobs.cend(); ++cit_blob ) {
 		Blob* blob = *cit_blob;
 
@@ -130,13 +132,19 @@ sb::Blob* sb::LeftLaneSolidCase::trackLeftBlob( CaseRepository* caseRepository, 
 		if ( blob->box.height < _params->MIN_LANE_BLOB_HEIGHT ) continue;
 
 		// compare position
-		if ( abs( blob->origin.x - _leftLaneOrigin.x ) > _params->MAX_LANE_POSITION_DIFF ) continue;
+		int posDiff = abs( blob->origin.x - _leftLaneOrigin.x );
+		if ( posDiff > _params->MAX_LANE_POSITION_DIFF ) continue;
 
 		// compare size
-		if ( abs( static_cast<int>(blob->size) - _leftLaneSize ) > _params->MAX_LANE_SIZE_DIFF ) continue;
+		int sizeDiff = abs( static_cast<int>(blob->size) - _leftLaneSize );
+		if ( sizeDiff > _params->MAX_LANE_SIZE_DIFF ) continue;
 
 		// compare height
-		if ( abs( blob->box.height - _leftLaneHeight ) > _params->MAX_LANE_HEIGHT_DIFF ) continue;
+		int heightDiff = abs( blob->box.height - _leftLaneHeight );
+		if ( heightDiff > _params->MAX_LANE_HEIGHT_DIFF ) continue;
+
+		float rating = 0.4f * posDiff + 0.3f * sizeDiff + 0.3f * heightDiff;
+
 
 		// TODO: compare shape (row width, angle)
 
@@ -161,7 +169,7 @@ int sb::LeftLaneSolidCase::onRedirect( CaseRepository* caseRepository, CollectDa
 			for ( auto sectionInfo : bothSolidLaneCase->getLeftGoodSections() ) sum += sectionInfo.second;
 			leftGoodRatio = 1.0f * sum / calculateData->bgrImage.rows;
 		}
-		if ( leftGoodRatio < 0.5f ) {
+		if ( leftGoodRatio < 0.3f ) {
 			std::cerr << "LeftLaneSolidCase: bad left lane" << std::endl;
 			return -1; // TODO: dashed lane
 		}

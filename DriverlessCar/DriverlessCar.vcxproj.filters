@@ -124,6 +124,9 @@
     <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\RightLaneSolidCase.cpp">
       <Filter>Analyzer\AnalyzerCasesBased\Cases</Filter>
     </ClCompile>
+    <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\ObstacleOnLeftLaneCase.cpp">
+      <Filter>Analyzer\AnalyzerCasesBased\Cases</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collector\ICollector.h">
@@ -227,6 +230,9 @@
     </ClInclude>
     <ClInclude Include="Analyzer\Data\Params\AnalyzeParams.h">
       <Filter>Analyzer\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\ObstacleOnLeftLaneCase.h">
+      <Filter>Analyzer\AnalyzerCasesBased\Cases</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -8,6 +8,8 @@ namespace sb
 
 struct AnalyzeData
 {
+	int state;
+
 	cv::Point target;
 };
 

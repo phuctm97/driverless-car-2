@@ -1,4 +1,5 @@
 #include "ApplicationTestCalculator.h"
+#include <ctime>
 
 void sb::ApplicationTestCalculator::run()
 {
@@ -12,12 +13,21 @@ void sb::ApplicationTestCalculator::run()
 	if( _calculator == nullptr || _calculator->init() < 0 ) _exiting = true;
 
 	// run
+	clock_t t;
+	int frameCount = 0;
+
 	while( !_exiting ) {
+		std::cout << frameCount++ << std::endl;
+
+		t = clock();
 		if( _collector->collect( collectData ) < 0 ) break;
+		std::cout << "Collector: " << 1000 * (clock() - t) / CLOCKS_PER_SEC << std::endl;
 
 		cv::imshow( "Original image", collectData->colorImage );
 
+		t = clock();
 		if( _calculator->calculate( collectData, calculateData ) ) break;
+		std::cout << "Calculator: " << 1000 * (clock() - t) / CLOCKS_PER_SEC << std::endl;
 
 		showResult( calculateData );
 
@@ -98,7 +108,7 @@ void sb::ApplicationTestCalculator::showResult( sb::CalculateData* calculateData
 		cv::waitKey();
 	}
 
-	for( auto cit_blob = calculateData->blobs.cbegin(); cit_blob != calculateData->blobs.cend(); ++cit_blob ) {
+	/*for( auto cit_blob = calculateData->blobs.cbegin(); cit_blob != calculateData->blobs.cend(); ++cit_blob ) {
 
 		Blob* blob = *cit_blob;
 
@@ -116,5 +126,5 @@ void sb::ApplicationTestCalculator::showResult( sb::CalculateData* calculateData
 			cv::imshow( "BIN image", img1 );
 			cv::waitKey( 100 );
 		}
-	}
+	}*/
 }

@@ -72,6 +72,10 @@
     <IncludePath>$(OPENCV_BUILD)\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(OPENCV_BUILD)\x64\vc14\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(OPENCV_BUILD)\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(OPENCV_BUILD)\x64\vc14\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -113,6 +117,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opencv_calib3d2413.lib;opencv_contrib2413.lib;opencv_core2413.lib;opencv_features2d2413.lib;opencv_flann2413.lib;opencv_gpu2413.lib;opencv_haartraining_engine.lib;opencv_highgui2413.lib;opencv_imgproc2413.lib;opencv_java2413.lib;opencv_legacy2413.lib;opencv_ml2413.lib;opencv_nonfree2413.lib;opencv_objdetect2413.lib;opencv_ocl2413.lib;opencv_photo2413.lib;opencv_stitching2413.lib;opencv_superres2413.lib;opencv_ts2413.lib;opencv_video2413.lib;opencv_videostab2413.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -121,6 +126,7 @@
     <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\BothLaneSolidCase.cpp" />
     <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\ICase.cpp" />
     <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\LeftLaneSolidCase.cpp" />
+    <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\ObstacleOnLeftLaneCase.cpp" />
     <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\RightLaneSolidCase.cpp" />
     <ClCompile Include="Analyzer\Data\AnalyzeData.cpp" />
     <ClCompile Include="Application\ApplicationFinal\ApplicationFinal.cpp" />
@@ -146,6 +152,7 @@
     <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\BothLaneSolidCase.h" />
     <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\ICase.h" />
     <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\LeftLaneSolidCase.h" />
+    <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\ObstacleOnLeftLaneCase.h" />
     <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\RightLaneSolidCase.h" />
     <ClInclude Include="Analyzer\Data\AnalyzeData.h" />
     <ClInclude Include="Analyzer\Data\Params\AnalyzeParams.h" />

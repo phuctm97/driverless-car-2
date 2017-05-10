@@ -69,7 +69,7 @@ int sb::RightLaneSolidCase::trackAnalyze( CaseRepository* caseRepository, Collec
 		int roadWidth = caseRepository->findRoadWidth( cit_row->row );
 		if ( roadWidth < 0 ) continue;
 
-		if ( cit_row->minX - roadWidth < -15 ) {
+		if ( cit_row->minX - roadWidth < -10 ) {
 			bothLaneSolidPossible = false;
 			break;
 		}
@@ -96,7 +96,7 @@ int sb::RightLaneSolidCase::trackAnalyze( CaseRepository* caseRepository, Collec
 		rightGoodRatio = 1.0f * sum / calculateData->bgrImage.rows;
 	}
 
-	if ( rightGoodRatio < 0.5f ) {
+	if ( rightGoodRatio < 0.3f ) {
 		std::cerr << "RightLaneSolidCase: bad tracked lane" << std::endl;
 		return -1; // TODO: dashed lane
 	}
@@ -161,7 +161,7 @@ int sb::RightLaneSolidCase::onRedirect( CaseRepository* caseRepository, CollectD
 			for ( auto sectionInfo : bothSolidLaneCase->getRightGoodSections() ) sum += sectionInfo.second;
 			rightGoodRatio = 1.0f * sum / calculateData->bgrImage.rows;
 		}
-		if ( rightGoodRatio < 0.5f ) {
+		if ( rightGoodRatio < 0.3f ) {
 			std::cerr << "RightLaneSolidCase: bad right lane" << std::endl;
 			return -1; // TODO: dashed lane
 		}

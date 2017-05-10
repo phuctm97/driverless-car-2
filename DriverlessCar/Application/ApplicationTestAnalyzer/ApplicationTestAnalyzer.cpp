@@ -1,4 +1,6 @@
 #include "ApplicationTestAnalyzer.h"
+#include <ctime>
+#include "../../Analyzer/AnalyzerCasesBased/Cases/ICase.h"
 
 void sb::ApplicationTestAnalyzer::run()
 {
@@ -18,23 +20,42 @@ void sb::ApplicationTestAnalyzer::run()
 	int frameCount = 0;
 
 	// run
-	while ( !_exiting ) {
-		
+	clock_t t;
 
+	while ( !_exiting ) {
+
+		t = clock();
 		if ( _collector->collect( collectData ) < 0 ) break;
-		
+		std::cout << "Collector: " << 1000 * (clock() - t) / CLOCKS_PER_SEC << std::endl;
+
 		// debug
 		std::cout << frameCount++ << std::endl;
 		videoFrame = collectData->colorImage.clone();
 
+		t = clock();
 		if ( _calculator->calculate( collectData, calculateData ) < 0 ) break;
+		std::cout << "Calculator: " << 1000 * (clock() - t) / CLOCKS_PER_SEC << std::endl;
+
+		t = clock();
 		if ( _analyzer->analyze( collectData, calculateData, analyzeData ) < 0 ) break;
+		std::cout << "Analyzer: " << 1000 * (clock() - t) / CLOCKS_PER_SEC << std::endl;
 
 		// debug
 		{
 			cv::flip( videoFrame, videoFrame, 1 );
 			cv::rectangle( videoFrame, cv::Point( 0, 332 ), cv::Point( 0 + 640, 332 + 100 ), cv::Scalar( 0, 0, 255 ), 2 );
 			cv::circle( videoFrame, analyzeData->target + cv::Point( 0, 332 ), 5, cv::Scalar( 0, 255, 0 ), 3 );
+
+			std::string state = "init";
+			switch ( analyzeData->state ) {
+			case -1: state = "init"; break;
+			case -2: state = "stop"; break;
+			case CaseType::RIGHT_LANE_SOLID_CASE: state = "right lane solid"; break;
+			case CaseType::LEFT_LANE_SOLID_CASE: state = "left lane solid"; break;
+			case CaseType::BOTH_LANE_SOLID_CASE: state = "both lane solid"; break;
+			}
+			cv::putText( videoFrame, state, cv::Point( 30, 30 ), cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar( 0, 0, 255 ), 2 );
+
 			cv::imshow( "Analyzer", videoFrame );
 			cv::waitKey();
 		}
@@ -94,4 +115,3 @@ void sb::ApplicationTestAnalyzer::addKeyboardCallback( const std::function<void(
 {
 	if ( _keyboard != nullptr ) _keyboard->addKeyboardCallback( callback );
 }
-
