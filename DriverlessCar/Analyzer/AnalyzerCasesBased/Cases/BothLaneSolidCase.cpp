@@ -706,62 +706,92 @@ void sb::BothLaneSolidCase::beginCorrectSection( std::vector<BlobRow>::iterator&
 
 sb::Blob* sb::BothLaneSolidCase::trackLeftBlob( CaseRepository* caseRepository, CollectData* collectData, CalculateData* calculateData )
 {
-	for ( auto cit_blob = calculateData->blobs.cbegin(); cit_blob != calculateData->blobs.cend(); ++cit_blob ) {
+	std::vector<std::pair<Blob*, float>> possibleBlobs;
+
+	for( auto cit_blob = calculateData->blobs.cbegin(); cit_blob != calculateData->blobs.cend(); ++cit_blob ) {
 		Blob* blob = *cit_blob;
 
 		// check blob size
-		if ( blob->size < _params->MIN_LANE_BLOB_SIZE ) continue;
+		if( blob->size < _params->MIN_LANE_BLOB_SIZE ) continue;
 
 		// check blob height
-		if ( blob->box.height < _params->MIN_LANE_BLOB_HEIGHT ) continue;
+		if( blob->box.height < _params->MIN_LANE_BLOB_HEIGHT ) continue;
 
 		// compare position
-		if ( abs( blob->origin.x - _leftLaneOrigin.x ) > _params->MAX_LANE_POSITION_DIFF ) continue;
+		int posDiff = abs( blob->origin.x - _leftLaneOrigin.x );
+		if( posDiff > _params->MAX_LANE_POSITION_DIFF ) continue;
 
 		// compare size
-		if ( abs( static_cast<int>(blob->size) - _leftLaneSize ) > _params->MAX_LANE_SIZE_DIFF ) continue;
+		int sizeDiff = abs( static_cast<int>(blob->size) - _leftLaneSize );
+		if( sizeDiff > _params->MAX_LANE_SIZE_DIFF ) continue;
 
 		// compare height
-		if ( abs( blob->box.height - _leftLaneHeight ) > _params->MAX_LANE_HEIGHT_DIFF ) continue;
+		int heightDiff = abs( blob->box.height - _leftLaneHeight );
+		if( heightDiff > _params->MAX_LANE_HEIGHT_DIFF ) continue;
 
+		float rating = 0.4f * posDiff + 0.3f * sizeDiff + 0.3f * heightDiff;
+		possibleBlobs.push_back( std::make_pair( blob, rating ) );
 		// TODO: compare shape (row width, angle)
 
 		// TODO: save and compare blob knot (row width, angle)
 
-		return blob;
 	}
 
-	return nullptr;
+	if( possibleBlobs.empty() ) return nullptr;
+
+	std::pair<Blob*, float> resPair = possibleBlobs.front();
+	for( auto cit_pair = possibleBlobs.cbegin(); cit_pair != possibleBlobs.cend(); ++cit_pair ) {
+		if( cit_pair->second > resPair.second ) {
+			resPair = *cit_pair;
+		}
+	}
+
+	return resPair.first;
 }
 
 sb::Blob* sb::BothLaneSolidCase::trackRightBlob( CaseRepository* caseRepository, CollectData* collectData, CalculateData* calculateData )
 {
-	for ( auto cit_blob = calculateData->blobs.cbegin(); cit_blob != calculateData->blobs.cend(); ++cit_blob ) {
+	std::vector<std::pair<Blob*, float>> possibleBlobs;
+
+	for( auto cit_blob = calculateData->blobs.cbegin(); cit_blob != calculateData->blobs.cend(); ++cit_blob ) {
 		Blob* blob = *cit_blob;
 
 		// check blob size
-		if ( blob->size < _params->MIN_LANE_BLOB_SIZE ) continue;
+		if( blob->size < _params->MIN_LANE_BLOB_SIZE ) continue;
 
 		// check blob height
-		if ( blob->box.height < _params->MIN_LANE_BLOB_HEIGHT ) continue;
+		if( blob->box.height < _params->MIN_LANE_BLOB_HEIGHT ) continue;
 
 		// compare position
-		if ( abs( blob->origin.x - _rightLaneOrigin.x ) > _params->MAX_LANE_POSITION_DIFF ) continue;
+		int posDiff = abs( blob->origin.x - _rightLaneOrigin.x );
+		if( posDiff > _params->MAX_LANE_POSITION_DIFF ) continue;
 
 		// compare size
-		if ( abs( static_cast<int>(blob->size) - _rightLaneSize ) > _params->MAX_LANE_SIZE_DIFF ) continue;
+		int sizeDiff = abs( static_cast<int>(blob->size) - _rightLaneSize );
+		if( sizeDiff > _params->MAX_LANE_SIZE_DIFF ) continue;
 
 		// compare height
-		if ( abs( blob->box.height - _rightLaneHeight ) > _params->MAX_LANE_HEIGHT_DIFF ) continue;
+		int heightDiff = abs( blob->box.height - _rightLaneHeight );
+		if( heightDiff > _params->MAX_LANE_HEIGHT_DIFF ) continue;
 
+		float rating = 0.4f * posDiff + 0.3f * sizeDiff + 0.3f * heightDiff;
+		possibleBlobs.push_back( std::make_pair( blob, rating ) );
 		// TODO: compare shape (row width, angle)
 
 		// TODO: save and compare blob knot (row width, angle)
 
-		return blob;
 	}
 
-	return nullptr;
+	if( possibleBlobs.empty() ) return nullptr;
+
+	std::pair<Blob*, float> resPair = possibleBlobs.front();
+	for( auto cit_pair = possibleBlobs.cbegin(); cit_pair != possibleBlobs.cend(); ++cit_pair ) {
+		if( cit_pair->second > resPair.second ) {
+			resPair = *cit_pair;
+		}
+	}
+
+	return resPair.first;
 }
 
 sb::Blob* sb::BothLaneSolidCase::findLeftBlob( CaseRepository* caseRepository, CollectData* collectData, CalculateData* calculateData, RightLaneSolidCase* rightLaneSolidCase )

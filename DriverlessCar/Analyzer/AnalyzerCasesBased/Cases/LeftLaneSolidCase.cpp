@@ -144,16 +144,23 @@ sb::Blob* sb::LeftLaneSolidCase::trackLeftBlob( CaseRepository* caseRepository, 
 		if ( heightDiff > _params->MAX_LANE_HEIGHT_DIFF ) continue;
 
 		float rating = 0.4f * posDiff + 0.3f * sizeDiff + 0.3f * heightDiff;
-
-
+		possibleBlobs.push_back( std::make_pair( blob, rating ) );
 		// TODO: compare shape (row width, angle)
 
 		// TODO: save and compare blob knot (row width, angle)
 
-		return blob;
 	}
 
-	return nullptr;
+	if ( possibleBlobs.empty() ) return nullptr;
+
+	std::pair<Blob*, float> resPair = possibleBlobs.front();
+	for ( auto cit_pair = possibleBlobs.cbegin(); cit_pair != possibleBlobs.cend(); ++cit_pair ) {
+		if( cit_pair->second > resPair.second ) {
+			resPair = *cit_pair;
+		}
+	}
+
+	return resPair.first;
 }
 
 int sb::LeftLaneSolidCase::onRedirect( CaseRepository* caseRepository, CollectData* collectData, CalculateData* calculateData, AnalyzeData* analyzeData, ICase* sender )

@@ -16,14 +16,16 @@ private:
 
 	std::map<int, int> _rowToRoadWidthMap;
 
+	int _averageLaneSize;
+
 public:
 	CaseRepository( int capacity )
-		: _capacity( capacity ) {}
+		: _capacity( capacity ), _averageLaneSize( -1 ) {}
 
 	bool empty() const;
 
 	const std::list<ICase*>& getAll() const;
-	
+
 	ICase* last() const;
 
 	void push( ICase* newCase );
