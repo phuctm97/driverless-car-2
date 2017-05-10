@@ -7,6 +7,8 @@ struct AnalyzeParams
 {
 	int MIN_LANE_BLOB_SIZE;
 	int MIN_LANE_BLOB_HEIGHT;
+	int MIN_LANE_BLOB_HEIGHT_TO_CHECK_OBSTACLE;
+
 	int MIN_LANE_WIDTH_1;
 	int MAX_LANE_WIDTH_1;
 	int MIN_LANE_WIDTH_2;
@@ -17,6 +19,8 @@ struct AnalyzeParams
 	int MAX_LANE_POSITION_DIFF;
 	int MAX_LANE_SIZE_DIFF;
 	int MAX_LANE_HEIGHT_DIFF;
+
+	cv::Point CROP_OFFSET;
 };
 }
 

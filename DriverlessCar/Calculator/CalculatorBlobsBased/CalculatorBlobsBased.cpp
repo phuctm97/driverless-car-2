@@ -11,13 +11,13 @@ int sb::CalculatorBlobsBased::calculate( CollectData* collectData, CalculateData
 {
 	sb::release( calculateData );
 
-	if ( _cropTool->crop( collectData->colorImage, calculateData->bgrImage ) < 0 ) {
-		std::cerr << "CalculatorBlobsBased: crop image fail" << std::endl;
+	if( _flipTool->flip( collectData->colorImage, collectData->colorImage ) < 0 ) {
+		std::cerr << "CalculatorBlobsBased: flip image fail" << std::endl;
 		return -1;
 	}
 
-	if ( _flipTool->flip( calculateData->bgrImage, calculateData->bgrImage ) < 0 ) {
-		std::cerr << "CalculatorBlobsBased: flip image fail" << std::endl;
+	if ( _cropTool->crop( collectData->colorImage, calculateData->bgrImage ) < 0 ) {
+		std::cerr << "CalculatorBlobsBased: crop image fail" << std::endl;
 		return -1;
 	}
 

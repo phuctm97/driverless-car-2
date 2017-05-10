@@ -1,5 +1,6 @@
 #include "BothLaneSolidCase.h"
 #include "../CaseRepository.h"
+#include "ObstacleOnLeftLaneCase.h"
 
 const cv::Point& sb::BothLaneSolidCase::getLeftLaneOrigin() const { return _leftLaneOrigin; }
 
@@ -64,7 +65,7 @@ int sb::BothLaneSolidCase::firstAnalyze( CaseRepository* caseRepository, Collect
 	}
 
 	// store case's analyze data to repository
-	auto caseToSave = new BothLaneSolidCase( _params );
+	auto caseToSave = new BothLaneSolidCase( _params, _obstacleFinder );
 	caseRepository->push( caseToSave );
 
 	// check for left lane row width
@@ -207,7 +208,7 @@ int sb::BothLaneSolidCase::trackAnalyze( CaseRepository* caseRepository, Collect
 	}
 
 	// store analyze data
-	auto caseToSave = new BothLaneSolidCase( _params );
+	auto caseToSave = new BothLaneSolidCase( _params, _obstacleFinder );
 
 	// check for left row lane width
 	if ( leftBlob != nullptr ) {
@@ -260,9 +261,33 @@ int sb::BothLaneSolidCase::trackAnalyze( CaseRepository* caseRepository, Collect
 		caseToSave->_rightRows = rightBlob->rows;
 	}
 
+	// check for obstacle on left lane, redirect OBSTACLE_ON_LEFT_LANE
+	if ( leftBlob != nullptr ) {
+		if ( leftBlob->box.height < _params->MIN_LANE_BLOB_HEIGHT_TO_CHECK_OBSTACLE ) {
+			int center = (leftBlob->rows.back().minX + leftBlob->rows.back().maxX) / 2;
+			int bottom = leftBlob->rows.back().row;
+
+			cv::Rect checkArea( MAX( 0, center - 100 + _params->CROP_OFFSET.x ), MAX( 0, bottom - 100 + _params->CROP_OFFSET.y ), 100, 100 );
+			cv::Mat checkImage = collectData->colorImage( checkArea );
+
+			if ( _obstacleFinder->checkObstacle( checkImage ) >= 0 ) {
+				ObstacleOnLeftLaneCase* obstacleOnLeftLaneCase = new ObstacleOnLeftLaneCase( _params, _obstacleFinder );
+				int res = obstacleOnLeftLaneCase->onRedirect( caseRepository, collectData, calculateData, analyzeData, caseToSave );
+				delete obstacleOnLeftLaneCase;
+				delete caseToSave;
+				return res;
+			}
+		}
+	}
+
+	// check for obstacle on right lane, redirect OBSTACLE_ON_RIGHT_LANE
+	if ( rightBlob != nullptr ) {
+		if ( rightBlob->box.height < _params->MIN_LANE_BLOB_HEIGHT_TO_CHECK_OBSTACLE ) { }
+	}
+
 	// redirect RIGHT_LANE_SOLID
 	if ( leftBlob == nullptr ) {
-		auto rightLaneSolidCase = new RightLaneSolidCase( _params );
+		auto rightLaneSolidCase = new RightLaneSolidCase( _params, _obstacleFinder );
 		int res = rightLaneSolidCase->onRedirect( caseRepository, collectData, calculateData, analyzeData, caseToSave );
 		delete rightLaneSolidCase;
 		delete caseToSave;
@@ -271,7 +296,7 @@ int sb::BothLaneSolidCase::trackAnalyze( CaseRepository* caseRepository, Collect
 
 	// redirect LEFT_LANE_SOLID
 	if ( rightBlob == nullptr ) {
-		auto leftLaneSolidCase = new LeftLaneSolidCase( _params );
+		auto leftLaneSolidCase = new LeftLaneSolidCase( _params, _obstacleFinder );
 		int res = leftLaneSolidCase->onRedirect( caseRepository, collectData, calculateData, analyzeData, caseToSave );
 		delete leftLaneSolidCase;
 		delete caseToSave;
@@ -378,7 +403,7 @@ int sb::BothLaneSolidCase::onRedirect( CaseRepository* caseRepository, CollectDa
 		LeftLaneSolidCase* leftLaneSolidCase = static_cast<LeftLaneSolidCase*>(sender);
 
 		// store analyze data
-		auto caseToSave = new BothLaneSolidCase( _params );
+		auto caseToSave = new BothLaneSolidCase( _params, _obstacleFinder );
 		caseToSave->_leftLaneOrigin = leftLaneSolidCase->getLeftLaneOrigin();
 		caseToSave->_leftLaneSize = leftLaneSolidCase->getLeftLaneSize();
 		caseToSave->_leftLaneHeight = leftLaneSolidCase->getLeftLaneHeight();
@@ -417,7 +442,7 @@ int sb::BothLaneSolidCase::onRedirect( CaseRepository* caseRepository, CollectDa
 
 		// redirect LEFT_LANE_SOLID
 		if ( rightBlob == nullptr ) {
-			auto newLeftLaneSolidCase = new LeftLaneSolidCase( _params );
+			auto newLeftLaneSolidCase = new LeftLaneSolidCase( _params, _obstacleFinder );
 			int res = newLeftLaneSolidCase->onRedirect( caseRepository, collectData, calculateData, analyzeData, caseToSave );
 			delete newLeftLaneSolidCase;
 			delete caseToSave;
@@ -497,7 +522,7 @@ int sb::BothLaneSolidCase::onRedirect( CaseRepository* caseRepository, CollectDa
 		RightLaneSolidCase* rightLaneSolidCase = static_cast<RightLaneSolidCase*>(sender);
 
 		// store analyze data
-		auto caseToSave = new BothLaneSolidCase( _params );
+		auto caseToSave = new BothLaneSolidCase( _params, _obstacleFinder );
 		caseToSave->_rightLaneOrigin = rightLaneSolidCase->getRightLaneOrigin();
 		caseToSave->_rightLaneSize = rightLaneSolidCase->getRightLaneSize();
 		caseToSave->_rightLaneHeight = rightLaneSolidCase->getRightLaneHeight();
@@ -536,7 +561,7 @@ int sb::BothLaneSolidCase::onRedirect( CaseRepository* caseRepository, CollectDa
 
 		// redirect RIGHT_LANE_SOLID
 		if ( leftBlob == nullptr ) {
-			auto newRightLaneSolidCase = new RightLaneSolidCase( _params );
+			auto newRightLaneSolidCase = new RightLaneSolidCase( _params, _obstacleFinder );
 			int res = newRightLaneSolidCase->onRedirect( caseRepository, collectData, calculateData, analyzeData, caseToSave );
 			delete newRightLaneSolidCase;
 			delete caseToSave;
@@ -708,26 +733,26 @@ sb::Blob* sb::BothLaneSolidCase::trackLeftBlob( CaseRepository* caseRepository, 
 {
 	std::vector<std::pair<Blob*, float>> possibleBlobs;
 
-	for( auto cit_blob = calculateData->blobs.cbegin(); cit_blob != calculateData->blobs.cend(); ++cit_blob ) {
+	for ( auto cit_blob = calculateData->blobs.cbegin(); cit_blob != calculateData->blobs.cend(); ++cit_blob ) {
 		Blob* blob = *cit_blob;
 
 		// check blob size
-		if( blob->size < _params->MIN_LANE_BLOB_SIZE ) continue;
+		if ( blob->size < _params->MIN_LANE_BLOB_SIZE ) continue;
 
 		// check blob height
-		if( blob->box.height < _params->MIN_LANE_BLOB_HEIGHT ) continue;
+		if ( blob->box.height < _params->MIN_LANE_BLOB_HEIGHT ) continue;
 
 		// compare position
 		int posDiff = abs( blob->origin.x - _leftLaneOrigin.x );
-		if( posDiff > _params->MAX_LANE_POSITION_DIFF ) continue;
+		if ( posDiff > _params->MAX_LANE_POSITION_DIFF ) continue;
 
 		// compare size
 		int sizeDiff = abs( static_cast<int>(blob->size) - _leftLaneSize );
-		if( sizeDiff > _params->MAX_LANE_SIZE_DIFF ) continue;
+		if ( sizeDiff > _params->MAX_LANE_SIZE_DIFF ) continue;
 
 		// compare height
 		int heightDiff = abs( blob->box.height - _leftLaneHeight );
-		if( heightDiff > _params->MAX_LANE_HEIGHT_DIFF ) continue;
+		if ( heightDiff > _params->MAX_LANE_HEIGHT_DIFF ) continue;
 
 		float rating = 0.4f * posDiff + 0.3f * sizeDiff + 0.3f * heightDiff;
 		possibleBlobs.push_back( std::make_pair( blob, rating ) );
@@ -737,11 +762,11 @@ sb::Blob* sb::BothLaneSolidCase::trackLeftBlob( CaseRepository* caseRepository, 
 
 	}
 
-	if( possibleBlobs.empty() ) return nullptr;
+	if ( possibleBlobs.empty() ) return nullptr;
 
 	std::pair<Blob*, float> resPair = possibleBlobs.front();
-	for( auto cit_pair = possibleBlobs.cbegin(); cit_pair != possibleBlobs.cend(); ++cit_pair ) {
-		if( cit_pair->second > resPair.second ) {
+	for ( auto cit_pair = possibleBlobs.cbegin(); cit_pair != possibleBlobs.cend(); ++cit_pair ) {
+		if ( cit_pair->second > resPair.second ) {
 			resPair = *cit_pair;
 		}
 	}
@@ -753,26 +778,26 @@ sb::Blob* sb::BothLaneSolidCase::trackRightBlob( CaseRepository* caseRepository,
 {
 	std::vector<std::pair<Blob*, float>> possibleBlobs;
 
-	for( auto cit_blob = calculateData->blobs.cbegin(); cit_blob != calculateData->blobs.cend(); ++cit_blob ) {
+	for ( auto cit_blob = calculateData->blobs.cbegin(); cit_blob != calculateData->blobs.cend(); ++cit_blob ) {
 		Blob* blob = *cit_blob;
 
 		// check blob size
-		if( blob->size < _params->MIN_LANE_BLOB_SIZE ) continue;
+		if ( blob->size < _params->MIN_LANE_BLOB_SIZE ) continue;
 
 		// check blob height
-		if( blob->box.height < _params->MIN_LANE_BLOB_HEIGHT ) continue;
+		if ( blob->box.height < _params->MIN_LANE_BLOB_HEIGHT ) continue;
 
 		// compare position
 		int posDiff = abs( blob->origin.x - _rightLaneOrigin.x );
-		if( posDiff > _params->MAX_LANE_POSITION_DIFF ) continue;
+		if ( posDiff > _params->MAX_LANE_POSITION_DIFF ) continue;
 
 		// compare size
 		int sizeDiff = abs( static_cast<int>(blob->size) - _rightLaneSize );
-		if( sizeDiff > _params->MAX_LANE_SIZE_DIFF ) continue;
+		if ( sizeDiff > _params->MAX_LANE_SIZE_DIFF ) continue;
 
 		// compare height
 		int heightDiff = abs( blob->box.height - _rightLaneHeight );
-		if( heightDiff > _params->MAX_LANE_HEIGHT_DIFF ) continue;
+		if ( heightDiff > _params->MAX_LANE_HEIGHT_DIFF ) continue;
 
 		float rating = 0.4f * posDiff + 0.3f * sizeDiff + 0.3f * heightDiff;
 		possibleBlobs.push_back( std::make_pair( blob, rating ) );
@@ -782,11 +807,11 @@ sb::Blob* sb::BothLaneSolidCase::trackRightBlob( CaseRepository* caseRepository,
 
 	}
 
-	if( possibleBlobs.empty() ) return nullptr;
+	if ( possibleBlobs.empty() ) return nullptr;
 
 	std::pair<Blob*, float> resPair = possibleBlobs.front();
-	for( auto cit_pair = possibleBlobs.cbegin(); cit_pair != possibleBlobs.cend(); ++cit_pair ) {
-		if( cit_pair->second > resPair.second ) {
+	for ( auto cit_pair = possibleBlobs.cbegin(); cit_pair != possibleBlobs.cend(); ++cit_pair ) {
+		if ( cit_pair->second > resPair.second ) {
 			resPair = *cit_pair;
 		}
 	}

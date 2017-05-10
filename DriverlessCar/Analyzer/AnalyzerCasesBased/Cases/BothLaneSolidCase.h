@@ -5,6 +5,7 @@
 #include "../../Data/Params/AnalyzeParams.h"
 #include "RightLaneSolidCase.h"
 #include "LeftLaneSolidCase.h"
+#include "../ObstacleFinder.h"
 
 namespace sb
 {
@@ -12,6 +13,7 @@ class BothLaneSolidCase : public ICase
 {
 private:
 	AnalyzeParams* _params;
+	ObstacleFinder* _obstacleFinder;
 
 	// analyze data
 	cv::Point _leftLaneOrigin, _rightLaneOrigin;
@@ -22,9 +24,9 @@ private:
 
 public:
 	// ReSharper disable CppPossiblyUninitializedMember
-	BothLaneSolidCase( AnalyzeParams* params )
+	BothLaneSolidCase( AnalyzeParams* params, ObstacleFinder* obstacleFinder )
 	// ReSharper restore CppPossiblyUninitializedMember
-		: _params( params ) { }
+		: _params( params ), _obstacleFinder( obstacleFinder ) { }
 
 	const cv::Point& getLeftLaneOrigin() const;
 

@@ -40,7 +40,7 @@ int sb::LeftLaneSolidCase::trackAnalyze( CaseRepository* caseRepository, Collect
 	}
 
 	// save size, height, shape: save to this, and push this to repository
-	auto caseToSave = new LeftLaneSolidCase( _params );
+	auto caseToSave = new LeftLaneSolidCase( _params, _obstacleFinder );
 	caseToSave->_leftLaneOrigin = leftBlob->origin;
 	caseToSave->_leftLaneSize = static_cast<int>(leftBlob->size);
 	caseToSave->_leftLaneHeight = leftBlob->box.height;
@@ -77,7 +77,7 @@ int sb::LeftLaneSolidCase::trackAnalyze( CaseRepository* caseRepository, Collect
 
 	// redirect BOTH_LANE_SOLID
 	if ( bothLaneSolidPossible ) {
-		auto bothLaneSolidCase = new BothLaneSolidCase( _params );
+		auto bothLaneSolidCase = new BothLaneSolidCase( _params, _obstacleFinder );
 		int res = bothLaneSolidCase->onRedirect( caseRepository, collectData, calculateData, analyzeData, caseToSave );
 		delete bothLaneSolidCase;
 		delete caseToSave;
@@ -182,7 +182,7 @@ int sb::LeftLaneSolidCase::onRedirect( CaseRepository* caseRepository, CollectDa
 		}
 
 		// save size, height, shape: save to this, and push this to repository
-		auto caseToSave = new LeftLaneSolidCase( _params );
+		auto caseToSave = new LeftLaneSolidCase( _params, _obstacleFinder );
 		caseToSave->_leftLaneOrigin = bothSolidLaneCase->getLeftLaneOrigin();
 		caseToSave->_leftLaneSize = bothSolidLaneCase->getLeftLaneSize();
 		caseToSave->_leftLaneHeight = bothSolidLaneCase->getLeftLaneHeight();

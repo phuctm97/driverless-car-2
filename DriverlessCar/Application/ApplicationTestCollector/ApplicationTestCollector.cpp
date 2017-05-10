@@ -19,10 +19,12 @@ void sb::ApplicationTestCollector::run()
 	while ( !_exiting ) {
 		if ( _collector->collect( collectData ) < 0 ) break;
 
-		cv::imshow( "Collector", collectData->colorImage );
+		cv::Mat image;
+		cv::flip( collectData->colorImage, image, 1 );
+		cv::imshow( "Collector", image );
 
 		if ( originalAvi.isOpened() ) {
-			originalAvi << collectData->colorImage;
+			originalAvi << image;
 		}
 
 		// keyboard event
