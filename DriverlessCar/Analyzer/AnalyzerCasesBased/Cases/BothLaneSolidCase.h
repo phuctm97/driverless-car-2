@@ -22,6 +22,9 @@ private:
 	std::vector<BlobRow> _leftRows, _rightRows;
 	std::vector<std::pair<int, int>> _leftGoodSections, _leftBadSections, _rightGoodSections, _rightBadSections;
 
+	int _obstaclePosition;
+
+
 public:
 	// ReSharper disable CppPossiblyUninitializedMember
 	BothLaneSolidCase( AnalyzeParams* params, ObstacleFinder* obstacleFinder )
@@ -51,6 +54,8 @@ public:
 	const std::vector<std::pair<int, int>>& getRightGoodSections() const;
 
 	const std::vector<std::pair<int, int>>& getRightBadSections() const;
+
+	const int& getObstaclePosition() const;
 
 	int getType() override;
 

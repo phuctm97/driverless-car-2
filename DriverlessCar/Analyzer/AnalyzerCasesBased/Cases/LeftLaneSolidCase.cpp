@@ -202,7 +202,6 @@ int sb::LeftLaneSolidCase::onRedirect( CaseRepository* caseRepository, CollectDa
 
 			int xl = cit_lrow->maxX;
 			analyzeData->target = cv::Point( xl + roadWidth / 2, cit_lrow->row );
-			break;
 		}
 	}
 		break;

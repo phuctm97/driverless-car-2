@@ -26,6 +26,8 @@ const std::vector<std::pair<int, int>>& sb::BothLaneSolidCase::getRightGoodSecti
 
 const std::vector<std::pair<int, int>>& sb::BothLaneSolidCase::getRightBadSections() const { return _rightBadSections; }
 
+const int& sb::BothLaneSolidCase::getObstaclePosition() const { return _obstaclePosition; }
+
 int sb::BothLaneSolidCase::getType()
 {
 	return CaseType::BOTH_LANE_SOLID_CASE;
@@ -262,7 +264,7 @@ int sb::BothLaneSolidCase::trackAnalyze( CaseRepository* caseRepository, Collect
 	}
 
 	// check for obstacle on left lane, redirect OBSTACLE_ON_LEFT_LANE
-	if ( leftBlob != nullptr ) {
+	/*if ( leftBlob != nullptr ) {
 		if ( leftBlob->box.height < _params->MIN_LANE_BLOB_HEIGHT_TO_CHECK_OBSTACLE ) {
 			int center = (leftBlob->rows.back().minX + leftBlob->rows.back().maxX) / 2;
 			int bottom = leftBlob->rows.back().row;
@@ -283,7 +285,7 @@ int sb::BothLaneSolidCase::trackAnalyze( CaseRepository* caseRepository, Collect
 	// check for obstacle on right lane, redirect OBSTACLE_ON_RIGHT_LANE
 	if ( rightBlob != nullptr ) {
 		if ( rightBlob->box.height < _params->MIN_LANE_BLOB_HEIGHT_TO_CHECK_OBSTACLE ) { }
-	}
+	}*/
 
 	// redirect RIGHT_LANE_SOLID
 	if ( leftBlob == nullptr ) {

@@ -12,6 +12,8 @@ private:
 	AnalyzeParams* _params;
 	ObstacleFinder* _obstacleFinder;
 
+	cv::Point _obstaclePosition;
+
 public:
 	// ReSharper disable CppPossiblyUninitializedMember
 	ObstacleOnLeftLaneCase( AnalyzeParams* params, ObstacleFinder* obstacleFinder )

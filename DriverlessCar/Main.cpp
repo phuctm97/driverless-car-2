@@ -81,7 +81,7 @@ void composeApplicationTestAnalyzer()
 
 	sb::IAnalyzer* analyzer = nullptr;
 
-	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-9.avi" ); // [on Car] replace with CollectorWithCamera
+	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-12.avi" ); // [on Car] replace with CollectorWithCamera
 
 	calculator = new sb::CalculatorBlobsBased( new sb::CropTool( cv::Rect( 0, 332, 640, 100 ) ),
 	                                           new sb::FlipTool(),
@@ -99,7 +99,7 @@ void composeApplicationTestAnalyzer()
 		analyzeParams->MAX_ROW_WIDTH_DIFF = 7;
 		analyzeParams->SECTION_HOPS_TO_LIVE = 4;
 		analyzeParams->MAX_LANE_POSITION_DIFF = 100;
-		analyzeParams->MAX_LANE_SIZE_DIFF = 1000;
+		analyzeParams->MAX_LANE_SIZE_DIFF = 2500;
 		analyzeParams->MAX_LANE_HEIGHT_DIFF = 30;
 		analyzeParams->CROP_OFFSET = cv::Point( 0, 332 );
 	}
