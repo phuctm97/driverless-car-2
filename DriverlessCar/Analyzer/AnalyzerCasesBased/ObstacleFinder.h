@@ -13,10 +13,6 @@ public:
 	int checkObstacle( const cv::Mat& image );
 
 	void release();
-
-	int CountObstaclePixel( const cv::Mat& bgrImage );
-
-	bool IsObstacleOnFrame( const cv::Mat &img, int minNumberOfPixel = 3000 );
 };
 }
 

@@ -1,7 +1,5 @@
 #include "BothLaneSolidCase.h"
 #include "../CaseRepository.h"
-#include "ObstacleOnLeftLaneCase.h"
-#include "ObstacleOnRightLaneCase.h"
 
 const cv::Point& sb::BothLaneSolidCase::getLeftLaneOrigin() const { return _leftLaneOrigin; }
 
@@ -264,44 +262,6 @@ int sb::BothLaneSolidCase::trackAnalyze( CaseRepository* caseRepository, Collect
 		caseToSave->_rightRows = rightBlob->rows;
 	}
 
-	// check for obstacle on left lane, redirect OBSTACLE_ON_LEFT_LANE
-	if ( leftBlob != nullptr ) {
-		if ( leftBlob->box.height < _params->MIN_LANE_BLOB_HEIGHT_TO_CHECK_OBSTACLE ) {
-			int center = (leftBlob->rows.back().minX + leftBlob->rows.back().maxX) / 2;
-			int bottom = leftBlob->rows.back().row;
-
-			cv::Rect checkArea( MAX( 0, center - 100 + _params->CROP_OFFSET.x ), MAX( 0, bottom - 100 + _params->CROP_OFFSET.y ), 100, 100 );
-			cv::Mat checkImage = collectData->colorImage( checkArea );
-
-			if ( _obstacleFinder->checkObstacle( checkImage ) >= 0 ) {
-				ObstacleOnLeftLaneCase* obstacleOnLeftLaneCase = new ObstacleOnLeftLaneCase( _params, _obstacleFinder );
-				int res = obstacleOnLeftLaneCase->onRedirect( caseRepository, collectData, calculateData, analyzeData, caseToSave );
-				delete obstacleOnLeftLaneCase;
-				delete caseToSave;
-				return res;
-			}
-		}
-	}
-
-	//// check for obstacle on right lane, redirect OBSTACLE_ON_RIGHT_LANE
-	if( rightBlob != nullptr ) {
-		if( rightBlob->box.height < _params->MIN_LANE_BLOB_HEIGHT_TO_CHECK_OBSTACLE ) {
-			int center = (rightBlob->rows.back().minX + rightBlob->rows.back().maxX) / 2;
-			int bottom = rightBlob->rows.back().row;
-
-			cv::Rect checkArea( MAX( 0, center - 100 + _params->CROP_OFFSET.x ), MAX( 0, bottom - 100 + _params->CROP_OFFSET.y ), 100, 100 );
-			cv::Mat checkImage = collectData->colorImage( checkArea );
-
-			if( _obstacleFinder->checkObstacle( checkImage ) >= 0 ) {
-				ObstacleOnRightLaneCase* obstacleOnRightLaneCase = new ObstacleOnRightLaneCase( _params, _obstacleFinder );
-				int res = obstacleOnRightLaneCase->onRedirect( caseRepository, collectData, calculateData, analyzeData, caseToSave );
-				delete obstacleOnRightLaneCase;
-				delete caseToSave;
-				return res;
-			}
-		}
-	}
-
 	// redirect RIGHT_LANE_SOLID
 	if ( leftBlob == nullptr ) {
 		auto rightLaneSolidCase = new RightLaneSolidCase( _params, _obstacleFinder );
@@ -376,7 +336,7 @@ int sb::BothLaneSolidCase::trackAnalyze( CaseRepository* caseRepository, Collect
 			if ( roadWidth < 0 ) continue;
 
 			int xl = cit_lrow->maxX;
-			analyzeData->target = cv::Point( xl + roadWidth / 2, cit_lrow->row );
+			analyzeData->target = cv::Point( xl + roadWidth / 5, cit_lrow->row );
 			break;
 		}
 	}
@@ -391,7 +351,7 @@ int sb::BothLaneSolidCase::trackAnalyze( CaseRepository* caseRepository, Collect
 			if ( roadWidth < 0 ) continue;
 
 			int xr = cit_rrow->minX;
-			analyzeData->target = cv::Point( xr - roadWidth / 2, cit_rrow->row );
+			analyzeData->target = cv::Point( xr - roadWidth / 4, cit_rrow->row );
 			break;
 		}
 	}
@@ -499,7 +459,7 @@ int sb::BothLaneSolidCase::onRedirect( CaseRepository* caseRepository, CollectDa
 				if ( roadWidth < 0 ) continue;
 
 				int xl = cit_lrow->maxX;
-				analyzeData->target = cv::Point( xl + roadWidth / 2, cit_lrow->row );
+				analyzeData->target = cv::Point( xl + roadWidth / 4, cit_lrow->row );
 				break;
 			}
 		}
@@ -514,7 +474,7 @@ int sb::BothLaneSolidCase::onRedirect( CaseRepository* caseRepository, CollectDa
 				if ( roadWidth < 0 ) continue;
 
 				int xr = cit_rrow->minX;
-				analyzeData->target = cv::Point( xr - roadWidth / 2, cit_rrow->row );
+				analyzeData->target = cv::Point( xr - roadWidth / 4, cit_rrow->row );
 				break;
 			}
 		}
@@ -618,7 +578,7 @@ int sb::BothLaneSolidCase::onRedirect( CaseRepository* caseRepository, CollectDa
 				if ( roadWidth < 0 ) continue;
 
 				int xl = cit_lrow->maxX;
-				analyzeData->target = cv::Point( xl + roadWidth / 2, cit_lrow->row );
+				analyzeData->target = cv::Point( xl + roadWidth / 5, cit_lrow->row );
 				break;
 			}
 		}
@@ -633,7 +593,7 @@ int sb::BothLaneSolidCase::onRedirect( CaseRepository* caseRepository, CollectDa
 				if ( roadWidth < 0 ) continue;
 
 				int xr = cit_rrow->minX;
-				analyzeData->target = cv::Point( xr - roadWidth / 2, cit_rrow->row );
+				analyzeData->target = cv::Point( xr - roadWidth / 5, cit_rrow->row );
 				break;
 			}
 		}

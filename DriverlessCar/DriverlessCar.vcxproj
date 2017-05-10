@@ -126,8 +126,6 @@
     <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\BothLaneSolidCase.cpp" />
     <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\ICase.cpp" />
     <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\LeftLaneSolidCase.cpp" />
-    <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\ObstacleOnLeftLaneCase.cpp" />
-    <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\ObstacleOnRightLaneCase.cpp" />
     <ClCompile Include="Analyzer\AnalyzerCasesBased\Cases\RightLaneSolidCase.cpp" />
     <ClCompile Include="Analyzer\AnalyzerCasesBased\ObstacleFinder.cpp" />
     <ClCompile Include="Analyzer\Data\AnalyzeData.cpp" />
@@ -154,8 +152,6 @@
     <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\BothLaneSolidCase.h" />
     <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\ICase.h" />
     <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\LeftLaneSolidCase.h" />
-    <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\ObstacleOnLeftLaneCase.h" />
-    <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\ObstacleOnRightLaneCase.h" />
     <ClInclude Include="Analyzer\AnalyzerCasesBased\Cases\RightLaneSolidCase.h" />
     <ClInclude Include="Analyzer\AnalyzerCasesBased\ObstacleFinder.h" />
     <ClInclude Include="Analyzer\Data\AnalyzeData.h" />

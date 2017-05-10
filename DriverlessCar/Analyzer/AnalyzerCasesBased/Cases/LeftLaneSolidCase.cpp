@@ -1,7 +1,6 @@
 #include "LeftLaneSolidCase.h"
 #include "../CaseRepository.h"
 #include "BothLaneSolidCase.h"
-#include "ObstacleOnRightLaneCase.h"
 
 sb::AnalyzeParams* const& sb::LeftLaneSolidCase::getParams() const { return _params; }
 
@@ -112,7 +111,7 @@ int sb::LeftLaneSolidCase::trackAnalyze( CaseRepository* caseRepository, Collect
 		if ( roadWidth < 0 ) continue;
 
 		int xl = cit_lrow->maxX;
-		analyzeData->target = cv::Point( xl + roadWidth / 2, cit_lrow->row );
+		analyzeData->target = cv::Point( xl + roadWidth / 4, cit_lrow->row );
 		break;
 	}
 
@@ -156,7 +155,7 @@ sb::Blob* sb::LeftLaneSolidCase::trackLeftBlob( CaseRepository* caseRepository, 
 
 	std::pair<Blob*, float> resPair = possibleBlobs.front();
 	for ( auto cit_pair = possibleBlobs.cbegin(); cit_pair != possibleBlobs.cend(); ++cit_pair ) {
-		if ( cit_pair->second > resPair.second ) {
+		if( cit_pair->second > resPair.second ) {
 			resPair = *cit_pair;
 		}
 	}
@@ -202,50 +201,10 @@ int sb::LeftLaneSolidCase::onRedirect( CaseRepository* caseRepository, CollectDa
 			if ( roadWidth < 0 ) continue;
 
 			int xl = cit_lrow->maxX;
-			analyzeData->target = cv::Point( xl + roadWidth / 2, cit_lrow->row );
+			analyzeData->target = cv::Point( xl + roadWidth / 4, cit_lrow->row );
 		}
 	}
 		break;
-	case CaseType::OBSTACLE_ON_RIGHT_LANE_CASE: {
-		auto obstacleOnRightLaneCase = static_cast<ObstacleOnRightLaneCase*>(sender);
-
-		// check good section percentage
-		float leftGoodRatio = 0; {
-			int sum;
-			sum = 0;
-			for ( auto sectionInfo : obstacleOnRightLaneCase->getLeftGoodSections() ) sum += sectionInfo.second;
-			leftGoodRatio = 1.0f * sum / calculateData->bgrImage.rows;
-		}
-		if ( leftGoodRatio < 0.3f ) {
-			std::cerr << "LeftLaneSolidCase: bad left lane" << std::endl;
-			return -1; // TODO: dashed lane
-		}
-
-		// save size, height, shape: save to this, and push this to repository
-		auto caseToSave = new LeftLaneSolidCase( _params, _obstacleFinder );
-		caseToSave->_leftLaneOrigin = obstacleOnRightLaneCase->getLeftLaneOrigin();
-		caseToSave->_leftLaneSize = obstacleOnRightLaneCase->getLeftLaneSize();
-		caseToSave->_leftLaneHeight = obstacleOnRightLaneCase->getLeftLaneHeight();
-		caseToSave->_leftBadSections = obstacleOnRightLaneCase->getLeftBadSections();
-		caseToSave->_leftGoodSections = obstacleOnRightLaneCase->getLeftGoodSections();
-		caseToSave->_leftRows = obstacleOnRightLaneCase->getLeftRows();
-		caseRepository->push( caseToSave );
-
-		// use lane calculated in BOTH_LANE and width in repository calculate target
-		auto cit_lrow = caseToSave->_leftRows.crbegin();
-
-		for ( ; cit_lrow != caseToSave->_leftRows.crend(); ++cit_lrow ) {
-			if ( cit_lrow->tag != 0 ) continue;
-
-			auto roadWidth = caseRepository->findRoadWidth( cit_lrow->row );
-			if ( roadWidth < 0 ) continue;
-
-			int xl = cit_lrow->maxX;
-			analyzeData->target = cv::Point( xl + roadWidth / 2, cit_lrow->row );
-		}
-	}
-		break;
-
 	default: return -1;
 	}
 

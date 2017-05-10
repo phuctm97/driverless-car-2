@@ -33,7 +33,7 @@ void onKeyPressed( int key );
 
 int main( const int argc, const char** argv )
 {
-	composeApplicationTestCalculator();
+	composeApplicationTestAnalyzer();
 
 	if ( application == nullptr ) return -1;
 
@@ -81,7 +81,7 @@ void composeApplicationTestAnalyzer()
 
 	sb::IAnalyzer* analyzer = nullptr;
 
-	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-9.avi" ); // [on Car] replace with CollectorWithCamera
+	collector = new sb::CollectorWithVideo( "..\\Debug\\sample-13.avi" ); // [on Car] replace with CollectorWithCamera
 
 	calculator = new sb::CalculatorBlobsBased( new sb::CropTool( cv::Rect( 0, 332, 640, 100 ) ),
 	                                           new sb::FlipTool(),
